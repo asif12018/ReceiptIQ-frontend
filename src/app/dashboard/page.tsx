@@ -15,7 +15,8 @@ import { useSettings } from "@/hooks/useSettings";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 import { usePDF } from "react-to-pdf";
-import { Download } from "lucide-react";
+import { Download, Sparkles as SparklesIcon } from "lucide-react";
+import { useGoals, useAiAdvice } from "@/hooks/useGoals";
 
 // ─── Recent Receipts ───────────────────────────────────────────────────────
 function RecentReceipts() {
@@ -231,6 +232,102 @@ function BudgetProgress() {
   );
 }
 
+// ─── Printable Report ────────────────────────────────────────────────────────
+function PrintableReport() {
+  const { data: allReceipts } = useReceipts();
+  const { data: goals } = useGoals();
+  const activeGoal = goals?.find((g) => g.status === "IN_PROGRESS") ?? goals?.[0];
+  const { data: advice } = useAiAdvice(activeGoal?.id);
+  const { currency } = useSettings();
+  const { total } = useMonthlySpend();
+  const { data: session } = authClient.useSession();
+  const user = session?.user as any;
+
+  return (
+    <div className="hidden print:block w-full max-w-[800px] mx-auto bg-white text-black p-10 font-sans absolute top-0 left-0 z-[100] min-h-screen">
+      {/* Header */}
+      <div className="flex justify-between items-end border-b-2 border-indigo-600 pb-4 mb-8">
+        <div>
+          <h1 className="text-4xl font-black text-indigo-900 tracking-tight">ReceiptIQ</h1>
+          <p className="text-zinc-500 font-medium">Financial Intelligence Report</p>
+        </div>
+        <div className="text-right">
+          <p className="font-semibold text-zinc-800">{user?.name || "User"}</p>
+          <p className="text-sm text-zinc-500">{new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+        </div>
+      </div>
+
+      {/* Summary Stats */}
+      <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-1">Monthly Spend</p>
+          <p className="text-2xl font-black text-indigo-700">{currency} {total.toLocaleString()}</p>
+        </div>
+        <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-1">Monthly Budget</p>
+          <p className="text-2xl font-black text-zinc-800">{currency} {(user?.monthlyBudget || 0).toLocaleString()}</p>
+        </div>
+        <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+          <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-1">Active Goal</p>
+          <p className="text-2xl font-black text-zinc-800 truncate">{activeGoal?.title || "N/A"}</p>
+        </div>
+      </div>
+
+      {/* Gemini AI Analysis */}
+      <div className="bg-indigo-50/50 rounded-2xl p-6 border-l-4 border-indigo-500 mb-8">
+        <h2 className="text-xl font-bold text-indigo-900 mb-3 flex items-center gap-2">
+          <SparklesIcon className="w-5 h-5 text-indigo-600" /> Gemini AI Financial Analysis
+        </h2>
+        {advice?.costingSuggestions?.length ? (
+          <ul className="space-y-3 mt-4">
+            {advice.costingSuggestions.map((tip, i) => (
+              <li key={i} className="flex gap-3 text-sm text-zinc-700 leading-relaxed">
+                <span className="text-indigo-500 font-bold">•</span>
+                {tip}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-zinc-500 italic mt-4">No AI analysis available. Generate advice in the Goal Coach to see it here.</p>
+        )}
+      </div>
+
+      {/* Recent Receipts Table */}
+      <div className="mb-8">
+        <h2 className="text-xl font-bold text-zinc-800 mb-4 border-b border-zinc-200 pb-2">Recent Transactions</h2>
+        <table className="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr className="border-b-2 border-zinc-200 text-zinc-500">
+              <th className="py-2 font-bold uppercase tracking-wider text-xs">Date</th>
+              <th className="py-2 font-bold uppercase tracking-wider text-xs">Merchant</th>
+              <th className="py-2 font-bold uppercase tracking-wider text-xs">Category</th>
+              <th className="py-2 font-bold uppercase tracking-wider text-xs text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allReceipts?.slice(0, 15).map(r => (
+              <tr key={r.id} className="border-b border-zinc-100">
+                <td className="py-2 text-zinc-600">{new Date(r.createdAt).toLocaleDateString()}</td>
+                <td className="py-2 font-medium text-zinc-800">{r.merchantName || "Unknown"}</td>
+                <td className="py-2 text-zinc-600">{r.category || "General"}</td>
+                <td className="py-2 text-right font-bold text-zinc-800">{currency} {r.totalAmount.toLocaleString()}</td>
+              </tr>
+            ))}
+            {!allReceipts?.length && (
+              <tr><td colSpan={4} className="py-4 text-center text-zinc-500 italic">No recent transactions</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      
+      {/* Footer */}
+      <div className="pt-8 mt-auto border-t border-zinc-200 text-center text-xs text-zinc-400">
+        <p>Generated by ReceiptIQ AI Engine (Powered by Google Gemini 2.5 Flash)</p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Monthly Spend Card ────────────────────────────────────────────────────
 function MonthlySpendCard() {
   const { total, isLoading } = useMonthlySpend();
@@ -275,16 +372,17 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 p-8 pb-36 overflow-y-auto" ref={targetRef}>
+    <div className="flex flex-col min-h-screen">
+      <PrintableReport />
+      <div className="flex-1 p-8 pb-36 print:hidden" ref={targetRef}>
         <header id="tour-overview" className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white tracking-tight">Financial Overview</h1>
             <p className="text-zinc-400 mt-1">Your AI-powered insights and recent activity.</p>
           </div>
           <button
-            onClick={() => toPDF()}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors border border-indigo-500/50"
+            onClick={() => window.print()}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors border border-indigo-500/50 print:hidden"
           >
             <Download className="w-4 h-4" />
             Export PDF

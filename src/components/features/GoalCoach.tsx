@@ -3,6 +3,8 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useGoals, useAiAdvice } from "@/hooks/useGoals";
 import { Sparkles, Target, RefreshCw } from "lucide-react";
+import { useLenis } from "lenis/react";
+import { useEffect } from "react";
 
 const COLORS = ["#4f46e5", "#27272a"];
 
@@ -18,6 +20,14 @@ export default function GoalCoach() {
     refetch: refetchAdvice,
     isFetching,
   } = useAiAdvice(activeGoal?.id);
+
+  const lenis = useLenis();
+  useEffect(() => {
+    if (lenis) {
+      // Force lenis to recalculate max scroll height when DOM expands
+      setTimeout(() => lenis.resize(), 50);
+    }
+  }, [advice, isFetching, lenis]);
 
   // Pie chart data derived from actual goal values
   const savedAmount = activeGoal?.savedAmount ?? 0;
@@ -59,12 +69,13 @@ export default function GoalCoach() {
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Left — Pie chart */}
-      <div className="flex flex-col items-center justify-center">
+      <div className="bg-zinc-950 rounded-lg p-5 border border-zinc-800/50 flex flex-col items-center justify-center">
         <div className="flex items-center justify-between w-full mb-4">
-          <h3 className="text-lg font-medium text-white">
+          <h3 className="text-sm font-medium text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+            <Target className="w-4 h-4 text-indigo-400" />
             {activeGoal.title}
           </h3>
-          <span className="text-xs text-zinc-500 bg-zinc-800 px-2 py-1 rounded-full">
+          <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-1 rounded-full">
             {progressPct}% saved
           </span>
         </div>
