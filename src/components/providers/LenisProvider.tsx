@@ -15,7 +15,7 @@ function LenisBridge() {
 
     // Connect Lenis RAF to GSAP ticker so ScrollTrigger reads Lenis position
     function update(time: number) {
-      lenis.raf(time * 1000);
+      lenis?.raf(time * 1000);
     }
 
     gsap.ticker.add(update);
