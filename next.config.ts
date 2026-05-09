@@ -5,7 +5,6 @@ const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
   register: true,
-  skipWaiting: true,
 });
 
 const nextConfig: NextConfig = {
@@ -14,7 +13,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/v1/:path*',
-        destination: 'https://receiptiq-backend.onrender.com/api/v1/:path*',
+        destination: `${process.env.BACKEND_URL}/api/v1/:path*`,
       },
     ];
   },
