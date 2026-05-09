@@ -7,6 +7,13 @@ const withPWA = withPWAInit({
   register: true,
 });
 
+if (!process.env.BACKEND_URL) {
+  throw new Error(
+    'Missing environment variable: BACKEND_URL. ' +
+    'Add it to your Vercel project settings (Settings → Environment Variables).'
+  );
+}
+
 const nextConfig: NextConfig = {
   turbopack: {},
   async rewrites() {
