@@ -2,7 +2,8 @@
 
 import { useState, useMemo } from "react";
 import { useReceipts } from "@/hooks/useReceipts";
-import { Receipt, Search, ScanLine, ShoppingBag, Utensils, Car, Zap } from "lucide-react";
+import { useSettings } from "@/hooks/useSettings";
+import { Receipt, Search, ScanLine, ShoppingBag, Utensils, Car, Zap, Download } from "lucide-react";
 
 const CATEGORY_COLORS: Record<string, string> = {
   Food: "bg-orange-500/15 text-orange-400 border-orange-500/30",
@@ -35,6 +36,7 @@ function CategoryBadge({ category }: { category: string | null }) {
 
 export default function ReceiptsPage() {
   const { data: receipts, isLoading } = useReceipts();
+  const { currency } = useSettings();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -67,33 +69,55 @@ export default function ReceiptsPage() {
         <p className="text-zinc-400 mt-1">All your scanned receipts in one place.</p>
       </header>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-          <input
-            type="text"
-            placeholder="Search merchant or category…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-indigo-500 focus:outline-none text-sm"
-          />
+      {/* Filters & Actions */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-6 justify-between">
+        <div className="flex flex-col sm:flex-row gap-3 flex-1">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+            <input
+              type="text"
+              placeholder="Search merchant or category…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-indigo-500 focus:outline-none text-sm"
+            />
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                  selectedCategory === cat
+                    ? "bg-indigo-600 border-indigo-500 text-white"
+                    : "bg-zinc-900 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
-                selectedCategory === cat
-                  ? "bg-indigo-600 border-indigo-500 text-white"
-                  : "bg-zinc-900 border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <button
+          onClick={() => {
+            if (!filtered?.length) return;
+            const csvContent = "data:text/csv;charset=utf-8," 
+              + "Merchant,Category,Amount,Date\n"
+              + filtered.map(r => `"${r.merchantName || 'Unknown'}","${r.category || 'General'}",${r.totalAmount},"${new Date(r.createdAt).toLocaleDateString()}"`).join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `receiptiq_export_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+          disabled={!filtered?.length}
+          className="flex items-center gap-2 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg text-sm font-medium transition-colors border border-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Download className="w-4 h-4" />
+          Export CSV
+        </button>
       </div>
 
       {/* Summary strip */}
@@ -103,7 +127,7 @@ export default function ReceiptsPage() {
             {filtered?.length ?? 0} receipt{filtered?.length !== 1 ? "s" : ""}
           </span>
           <span className="text-sm font-semibold text-indigo-400">
-            Total: ৳ {totalFiltered.toLocaleString()}
+            Total: {currency} {totalFiltered.toLocaleString()}
           </span>
         </div>
       )}
@@ -153,7 +177,7 @@ export default function ReceiptsPage() {
                     )}
                   </div>
                   <span className="text-sm font-bold text-white text-right whitespace-nowrap">
-                    ৳ {r.totalAmount.toLocaleString()}
+                    {currency} {r.totalAmount.toLocaleString()}
                   </span>
                   <CategoryBadge category={r.category} />
                   <span className="text-xs text-zinc-500 whitespace-nowrap">

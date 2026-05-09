@@ -88,7 +88,7 @@ export default function GoalCoach() {
               <Tooltip
                 contentStyle={{ background: "#18181b", border: "1px solid #3f3f46", borderRadius: 8 }}
                 labelStyle={{ color: "#a1a1aa" }}
-                formatter={(value: number) => [`৳ ${value.toLocaleString()}`, ""]}
+                formatter={(value: any) => [`৳ ${Number(value).toLocaleString()}`, ""]}
               />
             </PieChart>
           </ResponsiveContainer>

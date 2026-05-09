@@ -108,8 +108,9 @@ export default function AgenticChat() {
       if (!res.ok) throw new Error("Scan failed");
       const json = await res.json();
       const d = json.data;
+      const currentCurrency = JSON.parse(localStorage.getItem("receiptiq-settings") || "{}").state?.currency || "৳";
 
-      const reply = `✅ Receipt scanned! **${d.merchantName || "Unknown Merchant"}** — ৳${d.totalAmount?.toLocaleString()} (${d.category || "General"})`;
+      const reply = `✅ Receipt scanned! **${d.merchantName || "Unknown Merchant"}** — ${currentCurrency}${d.totalAmount?.toLocaleString()} (${d.category || "General"})`;
       setMessages((prev) => [
         ...prev,
         { id: Date.now().toString(), role: "bot", content: reply },
@@ -181,7 +182,7 @@ export default function AgenticChat() {
 
       {/* Input Area */}
       <div className="fixed bottom-0 left-64 right-0 p-6 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-transparent pointer-events-none z-50">
-        <div className="max-w-4xl mx-auto pointer-events-auto">
+        <div id="tour-chat" className="max-w-4xl mx-auto pointer-events-auto">
           <div className="relative flex items-center bg-zinc-900 border border-zinc-700 rounded-full shadow-2xl p-2 transition-all focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
             {/* Receipt upload */}
             <button

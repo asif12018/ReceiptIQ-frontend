@@ -8,12 +8,32 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   Cell, PieChart, Pie, LineChart, Line, CartesianGrid,
 } from "recharts";
-import { useMemo } from "react";
-import { TrendingUp, Wallet, AlertTriangle } from "lucide-react";
+import { useMemo, useEffect } from "react";
+import { TrendingUp, Wallet, AlertTriangle, Sparkles } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSettings } from "@/hooks/useSettings";
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
+import { usePDF } from "react-to-pdf";
+import { Download } from "lucide-react";
 
 // ─── Recent Receipts ───────────────────────────────────────────────────────
 function RecentReceipts() {
+
   const { receipts, isLoading } = useMonthlySpend();
+  const queryClient = useQueryClient();
+  const { currency } = useSettings();
+
+  const handleGenerateDemo = () => {
+    const demoData = [
+      { id: "demo1", merchantName: "Tech Store", category: "Shopping", totalAmount: 12500, createdAt: new Date().toISOString() },
+      { id: "demo2", merchantName: "Grocery Plus", category: "Groceries", totalAmount: 3200, createdAt: new Date(Date.now() - 86400000).toISOString() },
+      { id: "demo3", merchantName: "City Transport", category: "Transport", totalAmount: 450, createdAt: new Date(Date.now() - 86400000 * 2).toISOString() },
+      { id: "demo4", merchantName: "Cafe Delight", category: "Food", totalAmount: 850, createdAt: new Date(Date.now() - 86400000 * 3).toISOString() },
+      { id: "demo5", merchantName: "Electric Bill", category: "Utilities", totalAmount: 4500, createdAt: new Date(Date.now() - 86400000 * 4).toISOString() },
+    ];
+    queryClient.setQueryData(["receipts"], demoData);
+  };
 
   if (isLoading) {
     return (
@@ -30,8 +50,15 @@ function RecentReceipts() {
 
   if (!receipts || receipts.length === 0) {
     return (
-      <div className="flex items-center justify-center h-24 text-zinc-500 border-2 border-dashed border-zinc-800 rounded-lg text-sm">
-        No receipts yet. Scan one below!
+      <div className="flex flex-col items-center justify-center py-6 border-2 border-dashed border-zinc-800 rounded-lg gap-3">
+        <p className="text-zinc-500 text-sm">No receipts yet. Scan one below!</p>
+        <button
+          onClick={handleGenerateDemo}
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 text-indigo-400 rounded-full text-xs font-semibold hover:bg-indigo-500/20 transition-colors border border-indigo-500/30"
+        >
+          <Sparkles className="w-4 h-4" />
+          Populate Demo Data
+        </button>
       </div>
     );
   }
@@ -48,7 +75,7 @@ function RecentReceipts() {
             </p>
           </div>
           <span className="text-sm font-semibold text-indigo-400 shrink-0">
-            ৳ {r.totalAmount.toLocaleString()}
+            {currency} {r.totalAmount.toLocaleString()}
           </span>
         </div>
       ))}
@@ -61,6 +88,7 @@ const CAT_COLORS = ["#6366f1", "#06b6d4", "#f59e0b", "#ec4899", "#10b981", "#8b5
 
 function CategoryBreakdown() {
   const { receipts, isLoading } = useMonthlySpend();
+  const { currency } = useSettings();
 
   const data = useMemo(() => {
     if (!receipts) return [];
@@ -85,7 +113,7 @@ function CategoryBreakdown() {
         </Pie>
         <Tooltip
           contentStyle={{ background: "#18181b", border: "1px solid #3f3f46", borderRadius: 8, fontSize: 12 }}
-          formatter={(v: number) => [`৳ ${v.toLocaleString()}`, ""]}
+          formatter={(v: any) => [`${currency} ${Number(v).toLocaleString()}`, ""]}
         />
       </PieChart>
     </ResponsiveContainer>
@@ -94,6 +122,7 @@ function CategoryBreakdown() {
 
 function CategoryLegend() {
   const { receipts } = useMonthlySpend();
+  const { currency } = useSettings();
   const data = useMemo(() => {
     if (!receipts) return [];
     const map: Record<string, number> = {};
@@ -109,7 +138,7 @@ function CategoryLegend() {
             <div className="w-2 h-2 rounded-full" style={{ background: CAT_COLORS[i % CAT_COLORS.length] }} />
             <span className="text-zinc-400">{cat}</span>
           </div>
-          <span className="text-zinc-300 font-medium">৳ {Math.round(val).toLocaleString()}</span>
+          <span className="text-zinc-300 font-medium">{currency} {Math.round(val).toLocaleString()}</span>
         </div>
       ))}
     </div>
@@ -119,6 +148,7 @@ function CategoryLegend() {
 // ─── 7-Day Trend ──────────────────────────────────────────────────────────
 function SpendingTrend() {
   const { data: allReceipts, isLoading } = useReceipts();
+  const { currency } = useSettings();
 
   const data = useMemo(() => {
     const days: { label: string; total: number }[] = [];
@@ -144,7 +174,7 @@ function SpendingTrend() {
         <YAxis hide />
         <Tooltip
           contentStyle={{ background: "#18181b", border: "1px solid #3f3f46", borderRadius: 8, fontSize: 12 }}
-          formatter={(v: number) => [`৳ ${v.toLocaleString()}`, "Spent"]}
+          formatter={(v: any) => [`${currency} ${Number(v).toLocaleString()}`, "Spent"]}
         />
         <Line type="monotone" dataKey="total" stroke="#6366f1" strokeWidth={2} dot={{ fill: "#6366f1", r: 3 }} />
       </LineChart>
@@ -156,6 +186,7 @@ function SpendingTrend() {
 function BudgetProgress() {
   const { total, isLoading } = useMonthlySpend();
   const { data: session } = authClient.useSession();
+  const { currency } = useSettings();
   const user = session?.user as any;
   const budget = user?.monthlyBudget as number | undefined;
 
@@ -187,8 +218,8 @@ function BudgetProgress() {
         />
       </div>
       <div className="flex justify-between text-xs text-zinc-500">
-        <span>৳ {Math.round(total).toLocaleString()} spent</span>
-        <span>৳ {Math.round(budget).toLocaleString()} budget</span>
+        <span>{currency} {Math.round(total).toLocaleString()} spent</span>
+        <span>{currency} {Math.round(budget).toLocaleString()} budget</span>
       </div>
       {isWarning && !isOver && (
         <p className="text-xs text-amber-400 mt-2">⚠ You're close to your monthly limit.</p>
@@ -203,6 +234,7 @@ function BudgetProgress() {
 // ─── Monthly Spend Card ────────────────────────────────────────────────────
 function MonthlySpendCard() {
   const { total, isLoading } = useMonthlySpend();
+  const { currency } = useSettings();
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
       <div className="flex items-center gap-2 mb-2">
@@ -212,7 +244,7 @@ function MonthlySpendCard() {
       {isLoading ? (
         <div className="h-9 w-32 bg-zinc-800 animate-pulse rounded mt-1" />
       ) : (
-        <p className="text-3xl font-bold text-white">৳ {total.toLocaleString()}</p>
+        <p className="text-3xl font-bold text-white">{currency} {total.toLocaleString()}</p>
       )}
     </div>
   );
@@ -220,17 +252,50 @@ function MonthlySpendCard() {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────
 export default function DashboardPage() {
+  const { toPDF, targetRef } = usePDF({filename: `ReceiptIQ_Report_${new Date().toISOString().split('T')[0]}.pdf`});
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem("receiptiq-tour");
+    if (!hasSeenTour) {
+      const driverObj = driver({
+        showProgress: true,
+        steps: [
+          { element: "#tour-overview", popover: { title: 'Welcome to ReceiptIQ', description: 'This is your AI-powered financial command center. Here you can see your total spending and budget progress.', side: 'bottom' } },
+          { element: "#tour-coach", popover: { title: 'AI Goal Coach', description: 'Get proactive budget caps and advice from Gemini to reach your financial goals.', side: 'bottom' } },
+          { element: "#tour-recent", popover: { title: 'Recent Activity', description: 'Your scanned receipts will appear here automatically.', side: 'left' } },
+          { element: "#tour-chat", popover: { title: 'Agentic Command Center', description: 'Type or speak your expenses here, or upload receipt images directly.', side: 'top' } },
+        ],
+        onDestroyStarted: () => {
+          localStorage.setItem("receiptiq-tour", "true");
+          driverObj.destroy();
+        }
+      });
+      // Small timeout to ensure elements are rendered
+      setTimeout(() => driverObj.drive(), 500);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 p-8 pb-36 overflow-y-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-white tracking-tight">Financial Overview</h1>
-          <p className="text-zinc-400 mt-1">Your AI-powered insights and recent activity.</p>
+      <div className="flex-1 p-8 pb-36 overflow-y-auto" ref={targetRef}>
+        <header id="tour-overview" className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-white tracking-tight">Financial Overview</h1>
+            <p className="text-zinc-400 mt-1">Your AI-powered insights and recent activity.</p>
+          </div>
+          <button
+            onClick={() => toPDF()}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors border border-indigo-500/50"
+          >
+            <Download className="w-4 h-4" />
+            Export PDF
+          </button>
         </header>
 
         <div className="space-y-6">
           {/* Row 1 — Goal Coach (full width) */}
-          <GoalCoach />
+          <div id="tour-coach">
+            <GoalCoach />
+          </div>
 
           {/* Row 2 — Spend + Budget + Trend */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -260,7 +325,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Recent Receipts */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+            <div id="tour-recent" className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">
                   Recent Receipts

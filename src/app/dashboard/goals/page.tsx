@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useGoals, useAiAdvice, Goal } from "@/hooks/useGoals";
 import { useQueryClient } from "@tanstack/react-query";
+import confetti from "canvas-confetti";
 
 const API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -32,7 +33,39 @@ function AddSavingsModal({ goal, onClose }: { goal: Goal; onClose: () => void })
         body: JSON.stringify({ goalId: goal.id, amount: Number(amount) }),
       });
       if (!res.ok) throw new Error("Failed");
-      toast.success(`৳ ${Number(amount).toLocaleString()} added to "${goal.title}"!`);
+      
+      const addedAmount = Number(amount);
+      if (addedAmount >= remaining) {
+        // Goal reached! Trigger confetti explosion
+        const duration = 3000;
+        const end = Date.now() + duration;
+
+        const frame = () => {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#34d399', '#6366f1', '#fbbf24']
+          });
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#34d399', '#6366f1', '#fbbf24']
+          });
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        };
+        frame();
+        toast.success(`🎉 Congratulations! You reached your goal: "${goal.title}"!`);
+      } else {
+        toast.success(`৳ ${addedAmount.toLocaleString()} added to "${goal.title}"!`);
+      }
+      
       queryClient.invalidateQueries({ queryKey: ["goals"] });
       onClose();
     } catch {

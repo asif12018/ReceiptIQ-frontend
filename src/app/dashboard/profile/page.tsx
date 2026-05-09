@@ -3,8 +3,17 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { User, Briefcase, DollarSign, Camera, Loader2, Sparkles, CheckCircle2 } from "lucide-react";
+import { User, Briefcase, DollarSign, Camera, Loader2, Sparkles, CheckCircle2, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSettings } from "@/hooks/useSettings";
+
+const CURRENCIES = [
+  { value: "৳", label: "BDT (৳)" },
+  { value: "$", label: "USD ($)" },
+  { value: "€", label: "EUR (€)" },
+  { value: "£", label: "GBP (£)" },
+  { value: "₹", label: "INR (₹)" },
+];
 
 const OCCUPATIONS = [
   { value: "JOB_HOLDER", label: "Job Holder" },
@@ -23,6 +32,7 @@ interface BudgetSuggestion {
 export default function ProfilePage() {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user as any;
+  const { currency, setCurrency } = useSettings();
 
   const [name, setName] = useState("");
   const [occupation, setOccupation] = useState("");
@@ -210,8 +220,24 @@ export default function ProfilePage() {
           </div>
 
           <div>
+            <label htmlFor="currency" className="block text-sm font-medium text-zinc-300 mb-1.5 flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5" /> Currency Setting
+            </label>
+            <select
+              id="currency"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-zinc-50 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c.value} value={c.value}>{c.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
             <label htmlFor="monthly-income" className="block text-sm font-medium text-zinc-300 mb-1.5">
-              Monthly Income (৳)
+              Monthly Income ({currency})
             </label>
             <input
               id="monthly-income"
@@ -228,7 +254,7 @@ export default function ProfilePage() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label htmlFor="monthly-budget" className="text-sm font-medium text-zinc-300">
-                Monthly Budget (৳)
+                Monthly Budget ({currency})
               </label>
               <button
                 type="button"

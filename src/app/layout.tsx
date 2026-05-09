@@ -9,6 +9,8 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "ReceiptIQ | Smart Financial Tracking",
   description: "AI-powered receipt management and financial coaching.",
+  manifest: "/manifest.json",
+  themeColor: "#10b981"
 };
 
 export default function RootLayout({
@@ -17,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.className} h-full antialiased dark`}>
-      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-50">
+    <html lang="en" className={`${inter.className} h-full antialiased`} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>{children}</Providers>
-        <Toaster theme="dark" position="top-center" richColors />
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
