@@ -10,7 +10,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
+        gcTime: 1000 * 60 * 60 * 24, // 24 hours
+        networkMode: 'offlineFirst',
+        refetchOnWindowFocus: true,
       },
+      mutations: {
+        networkMode: 'offlineFirst',
+      }
     },
   }));
 

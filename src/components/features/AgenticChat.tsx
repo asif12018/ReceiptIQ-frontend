@@ -96,6 +96,26 @@ export default function AgenticChat() {
     };
     setMessages((prev) => [...prev, userMsg]);
 
+    // Optimistic UI Update
+    const tempReceiptId = `temp-${Date.now()}`;
+    const previousReceipts = queryClient.getQueryData(["receipts"]);
+    
+    queryClient.setQueryData(["receipts"], (old: any) => {
+      return [
+        {
+          id: tempReceiptId,
+          merchantName: "Scanning receipt...",
+          totalAmount: 0,
+          currency: "৳",
+          category: "General",
+          createdAt: new Date().toISOString(),
+          items: [],
+          isOptimistic: true
+        },
+        ...(old || [])
+      ];
+    });
+
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -118,12 +138,17 @@ export default function AgenticChat() {
       queryClient.invalidateQueries({ queryKey: ["receipts"] });
       toast.success("Receipt added successfully!");
     } catch {
+      // Revert optimistic update
+      if (previousReceipts) {
+        queryClient.setQueryData(["receipts"], previousReceipts);
+      }
+      
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now().toString(),
           role: "bot",
-          content: "❌ Could not scan receipt. Make sure it's a clear image.",
+          content: "❌ Could not scan receipt. Make sure it's a clear image or you are online.",
         },
       ]);
     } finally {
