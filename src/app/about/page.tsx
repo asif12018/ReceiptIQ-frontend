@@ -11,9 +11,7 @@ import {
   Brain,
   Award,
   Globe,
-  Github,
-  Linkedin,
-  Twitter,
+  ExternalLink,
 } from "lucide-react";
 
 export const metadata = {
@@ -383,22 +381,18 @@ export default function AboutPage() {
                   </p>
                   {/* Social links */}
                   <div className="flex items-center justify-center gap-3">
-                    {(
-                      [
-                        [Github, links.github],
-                        [Linkedin, links.linkedin],
-                        [Twitter, links.twitter],
-                      ] as const
-                    ).map(([Icon, href], idx) => (
-                      <a
-                        key={idx}
-                        href={href}
-                        className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
-                        aria-label="Social link"
-                      >
-                        <Icon className="w-4 h-4" />
-                      </a>
-                    ))}
+                    {[links.github, links.linkedin, links.twitter].map(
+                      (href, idx) => (
+                        <a
+                          key={idx}
+                          href={href}
+                          className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                          aria-label="Social link"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      )
+                    )}
                   </div>
                 </div>
               ))}
