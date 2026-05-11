@@ -24,8 +24,13 @@ export default function Sidebar({ role }: { role?: string }) {
   useEffect(() => setMounted(true), []);
 
   const handleLogout = async () => {
-    await authClient.signOut();
-    router.push("/login");
+    try {
+      await authClient.signOut();
+    } catch {
+      // ignore errors — still redirect
+    }
+    // Hard redirect to fully clear React state and server session
+    window.location.href = "/login";
   };
 
   return (

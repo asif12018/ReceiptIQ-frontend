@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { User, Briefcase, DollarSign, Camera, Loader2, Sparkles, CheckCircle2, Globe } from "lucide-react";
@@ -43,8 +43,34 @@ export default function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isSuggestingBudget, setIsSuggestingBudget] = useState(false);
   const [budgetSuggestion, setBudgetSuggestion] = useState<BudgetSuggestion | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
-  // Populate from session once loaded
+  // Fetch full user data from /users/me — the session alone is missing monthlyBudget
+  // and may be stale for occupation/income after updates.
+  useEffect(() => {
+    if (!session || initialized) return;
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+          credentials: "include",
+        });
+        if (!res.ok) return;
+        const json = await res.json();
+        const dbUser = json.data;
+        // Only set if the local state is still empty (user hasn't typed yet)
+        if (dbUser.name)          setName(dbUser.name);
+        if (dbUser.occupation)    setOccupation(dbUser.occupation);
+        if (dbUser.monthlyIncome) setMonthlyIncome(dbUser.monthlyIncome.toString());
+        if (dbUser.monthlyBudget) setMonthlyBudget(dbUser.monthlyBudget.toString());
+        setInitialized(true);
+      } catch {
+        // silently fail — form will still work via session fallback
+      }
+    };
+    fetchUserData();
+  }, [session, initialized]);
+
+  // Effective values: local state (from DB fetch or user typing) → session fallback
   const effectiveName = name || user?.name || "";
   const effectiveOccupation = occupation || user?.occupation || "";
   const effectiveIncome = monthlyIncome || user?.monthlyIncome?.toString() || "";
