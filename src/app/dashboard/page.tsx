@@ -20,22 +20,8 @@ import { useGoals, useAiAdvice } from "@/hooks/useGoals";
 
 // ─── Recent Receipts ───────────────────────────────────────────────────────
 function RecentReceipts() {
-
   const { receipts, isLoading } = useMonthlySpend();
-  const queryClient = useQueryClient();
   const { currency } = useSettings();
-
-  const handleGenerateDemo = () => {
-    const demoData = [
-      { id: "demo1", merchantName: "Tech Store", category: "Shopping", totalAmount: 12500, createdAt: new Date().toISOString() },
-      { id: "demo2", merchantName: "Grocery Plus", category: "Groceries", totalAmount: 3200, createdAt: new Date(Date.now() - 86400000).toISOString() },
-      { id: "demo3", merchantName: "City Transport", category: "Transport", totalAmount: 450, createdAt: new Date(Date.now() - 86400000 * 2).toISOString() },
-      { id: "demo4", merchantName: "Cafe Delight", category: "Food", totalAmount: 850, createdAt: new Date(Date.now() - 86400000 * 3).toISOString() },
-      { id: "demo5", merchantName: "Electric Bill", category: "Utilities", totalAmount: 4500, createdAt: new Date(Date.now() - 86400000 * 4).toISOString() },
-    ];
-    queryClient.setQueryData(["receipts"], demoData);
-  };
-
   if (isLoading) {
     return (
       <div className="divide-y divide-zinc-800">
@@ -51,15 +37,10 @@ function RecentReceipts() {
 
   if (!receipts || receipts.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-6 border-2 border-dashed border-zinc-800 rounded-lg gap-3">
-        <p className="text-zinc-500 text-sm">No receipts yet. Scan one below!</p>
-        <button
-          onClick={handleGenerateDemo}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 text-indigo-400 rounded-full text-xs font-semibold hover:bg-indigo-500/20 transition-colors border border-indigo-500/30"
-        >
-          <Sparkles className="w-4 h-4" />
-          Populate Demo Data
-        </button>
+      <div className="flex flex-col items-center justify-center py-8 border-2 border-dashed border-zinc-800/80 rounded-lg gap-2 bg-zinc-900/30">
+        <Sparkles className="w-6 h-6 text-indigo-500/50 mb-1" />
+        <p className="text-zinc-400 text-sm font-medium">No recent transactions</p>
+        <p className="text-zinc-600 text-xs">Scan a receipt or type an expense below</p>
       </div>
     );
   }
