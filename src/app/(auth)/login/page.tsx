@@ -228,14 +228,14 @@ export default function LoginPage() {
           <div className="grid grid-cols-2 gap-3 mt-3">
             <button
               type="button"
-              onClick={() => { setEmail("demo@user.com"); setPassword("password123"); setIsSignUp(false); }}
+              onClick={() => { setEmail("hasig49380@anawebs.com"); setPassword("123456789"); setIsSignUp(false); }}
               className="text-xs py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-emerald-900/30 text-emerald-400 border border-zinc-700 transition-all font-medium"
             >
               Demo User
             </button>
             <button
               type="button"
-              onClick={() => { setEmail("admin@user.com"); setPassword("password123"); setIsSignUp(false); }}
+              onClick={() => { setEmail("admin@admin.com"); setPassword("123456789"); setIsSignUp(false); }}
               className="text-xs py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-purple-900/30 text-purple-400 border border-zinc-700 transition-all font-medium"
             >
               Demo Admin
