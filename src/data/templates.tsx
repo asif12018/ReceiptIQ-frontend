@@ -34,8 +34,8 @@ export const TEMPLATES = [
     difficulty: "Medium",
     category: "Debt",
     description: "Pay off your smallest debts first to gain momentum while paying minimums on larger debts.",
-    icon: <Clock className="w-8 h-8 text-amber-500" />,
-    color: "amber"
+    icon: <Clock className="w-8 h-8 text-rose-500" />,
+    color: "rose"
   },
   {
     id: "no-spend-month",
@@ -70,7 +70,7 @@ export const TEMPLATES = [
     difficulty: "Hard",
     category: "Budgeting",
     description: "Give every single dollar a job before the month begins so your income minus expenses equals exactly zero.",
-    icon: <ShieldCheck className="w-8 h-8 text-amber-500" />,
-    color: "amber"
+    icon: <ShieldCheck className="w-8 h-8 text-indigo-500" />,
+    color: "indigo"
   }
 ];

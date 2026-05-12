@@ -62,7 +62,7 @@ export default async function ExploreDetailsPage({ params }: { params: Promise<{
                   </span>
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${
                     template.difficulty === 'Easy' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                    template.difficulty === 'Medium' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                    template.difficulty === 'Medium' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
                     'bg-rose-500/10 text-rose-400 border-rose-500/20'
                   }`}>
                     {template.difficulty}
@@ -119,8 +119,8 @@ export default async function ExploreDetailsPage({ params }: { params: Promise<{
               <div className="h-40 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-zinc-800 flex items-center justify-center">
                 <Compass className="w-10 h-10 text-emerald-500/50" />
               </div>
-              <div className="h-40 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-zinc-800 flex items-center justify-center hidden md:flex">
-                <ShieldCheck className="w-10 h-10 text-amber-500/50" />
+              <div className="h-40 rounded-xl bg-gradient-to-br from-rose-500/20 to-pink-500/20 border border-zinc-800 flex items-center justify-center hidden md:flex">
+                <ShieldCheck className="w-10 h-10 text-rose-500/50" />
               </div>
             </div>
           </div>

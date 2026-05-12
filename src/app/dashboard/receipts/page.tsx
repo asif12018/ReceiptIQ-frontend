@@ -6,11 +6,11 @@ import { useSettings } from "@/hooks/useSettings";
 import { Receipt, Search, ScanLine, ShoppingBag, Utensils, Car, Zap, Download, ChevronLeft, ChevronRight } from "lucide-react";
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Food: "bg-orange-500/15 text-orange-400 border-orange-500/30",
-  Transport: "bg-blue-500/15 text-blue-400 border-blue-500/30",
-  Shopping: "bg-pink-500/15 text-pink-400 border-pink-500/30",
-  Groceries: "bg-green-500/15 text-green-400 border-green-500/30",
-  Utilities: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
+  Food: "bg-rose-500/15 text-rose-400 border-rose-500/30",
+  Transport: "bg-indigo-500/15 text-indigo-400 border-indigo-500/30",
+  Shopping: "bg-indigo-500/15 text-indigo-400 border-indigo-500/30",
+  Groceries: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+  Utilities: "bg-rose-500/15 text-rose-400 border-rose-500/30",
   General: "bg-zinc-500/15 text-zinc-400 border-zinc-500/30",
 };
 

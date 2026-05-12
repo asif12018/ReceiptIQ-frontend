@@ -166,7 +166,7 @@ export default function AdminDashboardPage() {
               </div>
               <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-4 h-4 text-orange-400" />
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
                   <h3 className="text-sm font-medium text-zinc-400">Total Receipts Scanned</h3>
                 </div>
                 {isStatsLoading ? (
@@ -280,11 +280,11 @@ export default function AdminDashboardPage() {
                           <button
                             onClick={() => handleDeleteUser(user.id)}
                             disabled={deletingId === user.id}
-                            className="p-2 text-zinc-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors disabled:opacity-50"
+                            className="p-2 text-zinc-400 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-colors disabled:opacity-50"
                             title="Delete User"
                           >
                             {deletingId === user.id ? (
-                              <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+                              <div className="w-4 h-4 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
                             ) : (
                               <Trash2 className="w-4 h-4" />
                             )}
@@ -335,16 +335,16 @@ export default function AdminDashboardPage() {
           <div className="space-y-6">
             <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
               <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-purple-400" /> AI API Quota Monitoring
+                <Sparkles className="w-5 h-5 text-indigo-400" /> AI API Quota Monitoring
               </h3>
               <p className="text-sm text-zinc-400 mb-6">Track your platform's usage of the Google Gemini API to prevent overages.</p>
               
               <div className="mb-2 flex justify-between text-sm">
                 <span className="text-zinc-300 font-medium">Estimated Token Usage (Monthly)</span>
-                <span className="text-purple-400 font-bold">128,450 / 1,000,000 tokens</span>
+                <span className="text-indigo-400 font-bold">128,450 / 1,000,000 tokens</span>
               </div>
               <div className="h-3 w-full bg-zinc-800 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-500" style={{ width: '12.8%' }} />
+                <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-500" style={{ width: '12.8%' }} />
               </div>
               <p className="text-xs text-zinc-500 mt-2 text-right">~12.8% of Free Tier used</p>
             </div>
@@ -359,7 +359,7 @@ export default function AdminDashboardPage() {
                       <span className="text-xs text-zinc-500">{log.time}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs font-mono px-2 py-1 bg-purple-500/10 text-purple-400 rounded border border-purple-500/20">
+                      <span className="text-xs font-mono px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20">
                         {log.tokens} tokens
                       </span>
                     </div>
@@ -419,7 +419,7 @@ export default function AdminDashboardPage() {
                     onClick={() => setSettings(s => ({ ...s, maintenanceMode: !s.maintenanceMode }))}
                     className="text-zinc-400 hover:text-red-400 transition-colors"
                   >
-                    {settings.maintenanceMode ? <ToggleRight className="w-10 h-10 text-red-500" /> : <ToggleLeft className="w-10 h-10" />}
+                    {settings.maintenanceMode ? <ToggleRight className="w-10 h-10 text-rose-500" /> : <ToggleLeft className="w-10 h-10" />}
                   </button>
                 </div>
               </div>

@@ -152,11 +152,15 @@ export default function ExplorePage() {
               {paginatedTemplates.map((template) => (
                 <div key={template.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition-all flex flex-col">
                   <div className={`h-32 bg-${template.color}-500/10 border-b border-zinc-800 flex items-center justify-center`}>{template.icon}</div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <div className="flex justify-between items-start mb-3">
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">{template.category}</span>
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full border bg-zinc-800/50 text-emerald-400 border-emerald-500/20">{template.difficulty}</span>
-                    </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">{template.category}</span>
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${
+                      template.difficulty === 'Easy' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                      template.difficulty === 'Medium' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
+                      'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                    }`}>{template.difficulty}</span>
+                  </div>
                     <h3 className="font-bold text-lg text-white mb-2">{template.title}</h3>
                     <p className="text-sm text-zinc-400 mb-6 flex-1 line-clamp-3">{template.description}</p>
                     <Link href={`/explore/${template.id}`} className="mt-auto">
