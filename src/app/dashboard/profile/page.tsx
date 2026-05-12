@@ -261,6 +261,28 @@ export default function ProfilePage() {
             </select>
           </div>
 
+          {/* AI Persona Setting */}
+          <div>
+            <label htmlFor="ai-persona" className="block text-sm font-medium text-zinc-300 mb-1.5 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-purple-400" /> AI Coach Personality
+            </label>
+            <select
+              id="ai-persona"
+              value={typeof window !== "undefined" ? localStorage.getItem("ai-persona") || "Professional" : "Professional"}
+              onChange={(e) => {
+                localStorage.setItem("ai-persona", e.target.value);
+                toast.success(`AI Persona changed to ${e.target.value}!`);
+                setTimeout(() => window.location.reload(), 500);
+              }}
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-zinc-50 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
+            >
+              <option value="Professional">Professional (Polite & strict)</option>
+              <option value="Roast Mode">Roast Mode (Gordon Ramsay style)</option>
+              <option value="Hype Beast">Hype Beast (Extremely Enthusiastic)</option>
+            </select>
+            <p className="text-xs text-zinc-500 mt-1.5">Changes how the AI speaks to you in the Goal Coach.</p>
+          </div>
+
           <div>
             <label htmlFor="monthly-income" className="block text-sm font-medium text-zinc-300 mb-1.5">
               Monthly Income ({currency})

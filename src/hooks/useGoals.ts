@@ -91,14 +91,15 @@ export const useAiInsights = () => {
   return useQuery<AiInsights>({
     queryKey: ["ai-insights"],
     queryFn: async () => {
-      const res = await fetch(`${API}/users/ai-insights`, {
+      const persona = typeof window !== "undefined" ? localStorage.getItem("ai-persona") || "Professional" : "Professional";
+      const res = await fetch(`${API}/users/ai-insights?persona=${encodeURIComponent(persona)}`, {
         credentials: "include",
       });
       const json = await res.json();
       if (!res.ok || !json.success) throw new Error(json.message || "Failed to fetch AI insights");
       return json.data;
     },
-    staleTime: 10 * 60_000, // cache 10 min — AI calls are expensive
+    staleTime: 10 * 60_000, // cache 10 min
     retry: false,
   });
 };

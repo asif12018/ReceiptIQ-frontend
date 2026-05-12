@@ -2,6 +2,7 @@
 
 import AgenticChat from "@/components/features/AgenticChat";
 import GoalCoach from "@/components/features/GoalCoach";
+import SmartFeatures from "@/components/features/SmartFeatures";
 import { useMonthlySpend, useReceipts } from "@/hooks/useReceipts";
 import { authClient } from "@/lib/auth-client";
 import {
@@ -383,6 +384,9 @@ export default function DashboardPage() {
               <BudgetProgress />
             </div>
           </div>
+
+          {/* Row 2.5 — Smart Features (Brain Dump, Time Travel, Subscription Sniper) */}
+          <SmartFeatures />
 
           {/* Row 3 — Category Breakdown + 7-day trend + Recent */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
