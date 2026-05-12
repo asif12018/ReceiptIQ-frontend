@@ -108,6 +108,41 @@ export default async function ExploreDetailsPage({ params }: { params: Promise<{
               </div>
             </div>
           </div>
+
+          {/* Image Gallery (Simulated with colorful blocks and icons) */}
+          <div className="p-8 md:p-12 border-t border-zinc-800 bg-zinc-950/50">
+            <h3 className="text-2xl font-bold text-white mb-6">Template Preview</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="h-40 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-zinc-800 flex items-center justify-center">
+                <Target className="w-10 h-10 text-indigo-500/50" />
+              </div>
+              <div className="h-40 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-zinc-800 flex items-center justify-center">
+                <Compass className="w-10 h-10 text-emerald-500/50" />
+              </div>
+              <div className="h-40 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-zinc-800 flex items-center justify-center hidden md:flex">
+                <ShieldCheck className="w-10 h-10 text-amber-500/50" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Related Items Section */}
+        <div className="mt-16 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Related Templates</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TEMPLATES.filter(t => t.id !== template.id).slice(0, 3).map((t) => (
+              <Link key={t.id} href={`/explore/${t.id}`} className="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition-all flex flex-col h-full">
+                <div className={`h-24 bg-${t.color}-500/10 border-b border-zinc-800 flex items-center justify-center`}>
+                  <div className="group-hover:scale-110 transition-transform duration-300">{t.icon}</div>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <span className="text-xs font-semibold px-2.5 py-1 w-max rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 mb-3">{t.category}</span>
+                  <h3 className="font-bold text-base text-white mb-2 group-hover:text-emerald-400 transition-colors">{t.title}</h3>
+                  <p className="text-xs text-zinc-400 line-clamp-2 mt-auto">{t.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
 

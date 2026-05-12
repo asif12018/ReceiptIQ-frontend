@@ -8,6 +8,8 @@ import { HowItWorks } from "@/components/features/HowItWorks";
 import { ImpactMetrics } from "@/components/features/ImpactMetrics";
 import { Testimonials } from "@/components/features/Testimonials";
 import { CTABanner } from "@/components/features/CTABanner";
+import { FAQ } from "@/components/features/FAQ";
+import { Newsletter } from "@/components/features/Newsletter";
 
 export default function LandingPage() {
   return (
@@ -69,6 +71,8 @@ export default function LandingPage() {
         <PlatformCapabilities />
         <ImpactMetrics />
         <Testimonials />
+        <FAQ />
+        <Newsletter />
         <CTABanner />
       </main>
 
