@@ -4,6 +4,7 @@ import { Footer } from "@/components/shared/Footer";
 import { ArrowLeft, CheckCircle2, TrendingUp, Compass, ShieldCheck, Target, Clock } from "lucide-react";
 import { TEMPLATES } from "@/data/templates";
 import { notFound } from "next/navigation";
+import { AdoptPlanButton } from "./AdoptPlanButton";
 
 // Since it's a dynamic route but we are using mock data, this is fine
 export default async function ExploreDetailsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -70,11 +71,7 @@ export default async function ExploreDetailsPage({ params }: { params: Promise<{
                 </div>
                 <h1 className="text-4xl font-bold text-white tracking-tight">{template.title}</h1>
               </div>
-              <Link href="/dashboard/goals">
-                <Button className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl px-8 py-6 text-lg font-medium">
-                  Adopt Plan
-                </Button>
-              </Link>
+              <AdoptPlanButton id={template.id} title={template.title} />
             </div>
 
             <div className="prose prose-invert prose-zinc max-w-none">
