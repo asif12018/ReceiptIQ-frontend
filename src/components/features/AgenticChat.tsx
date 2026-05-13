@@ -161,7 +161,7 @@ export default function AgenticChat() {
   return (
     <>
       {/* Chat Log Overlay */}
-      <div className="fixed bottom-24 left-64 right-0 p-6 pointer-events-none z-40 flex flex-col items-end">
+      <div className="fixed bottom-24 left-0 md:left-64 right-0 p-6 pointer-events-none z-40 flex flex-col items-end">
         <div className="max-w-4xl w-full flex flex-col gap-3">
           {messages.length > 0 && (
             <div className="self-end pointer-events-auto">
@@ -206,7 +206,7 @@ export default function AgenticChat() {
       </div>
 
       {/* Input Area */}
-      <div className="fixed bottom-0 left-64 right-0 p-6 bg-gradient-to-t from-white via-white/90 dark:from-zinc-950 dark:via-zinc-950/90 to-transparent pointer-events-none z-50">
+      <div className="fixed bottom-0 left-0 md:left-64 right-0 p-6 bg-gradient-to-t from-white via-white/90 dark:from-zinc-950 dark:via-zinc-950/90 to-transparent pointer-events-none z-50">
         <div id="tour-chat" className="max-w-4xl mx-auto pointer-events-auto">
           <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-full shadow-2xl p-2 transition-all focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
             {/* Receipt upload */}

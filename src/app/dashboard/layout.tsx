@@ -51,11 +51,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50">
-      <div className="fixed inset-y-0 left-0 w-64 z-40 hidden md:block">
-        <Sidebar role={user.role} />
-      </div>
-      <main className="flex-1 md:ml-64 relative min-h-screen">{children}</main>
+    <div className="flex flex-col md:flex-row min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50">
+      <Sidebar role={user.role} />
+      <main className="flex-1 md:ml-64 relative min-h-screen pt-16 md:pt-0 pb-24 md:pb-0">{children}</main>
     </div>
   );
 }
