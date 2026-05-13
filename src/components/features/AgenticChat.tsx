@@ -19,6 +19,7 @@ export default function AgenticChat() {
   const [isRecording, setIsRecording] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const recognitionRef = useRef<any>(null);
+  const baseInputRef = useRef("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatMutation = useChat();
   const queryClient = useQueryClient();
@@ -31,17 +32,25 @@ export default function AgenticChat() {
       const SpeechRecognition =
         (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
       recognitionRef.current.lang = "en-US";
+      
       recognitionRef.current.onresult = (event: any) => {
-        const result = event.results[event.results.length - 1];
-        if (result.isFinal) {
-          const transcript = result[0].transcript.trim();
-          setInput((prev) => (prev ? prev.trim() + " " + transcript : transcript));
+        let sessionTranscript = "";
+        for (let i = 0; i < event.results.length; ++i) {
+          sessionTranscript += event.results[i][0].transcript;
         }
+        
+        const currentBase = baseInputRef.current.trim();
+        const combined = currentBase 
+          ? `${currentBase} ${sessionTranscript.trim()}` 
+          : sessionTranscript.trim();
+        
+        setInput(combined);
       };
       recognitionRef.current.onend = () => setIsRecording(false);
+      recognitionRef.current.onerror = () => setIsRecording(false);
     }
   }, []);
 
@@ -50,8 +59,13 @@ export default function AgenticChat() {
       recognitionRef.current?.stop();
       setIsRecording(false);
     } else {
-      recognitionRef.current?.start();
-      setIsRecording(true);
+      baseInputRef.current = input;
+      try {
+        recognitionRef.current?.start();
+        setIsRecording(true);
+      } catch (err) {
+        console.error("Speech recognition start error:", err);
+      }
     }
   };
 
