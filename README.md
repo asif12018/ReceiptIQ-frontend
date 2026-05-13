@@ -55,7 +55,10 @@ Scan receipts instantly, get real-time coaching, and conquer your financial goal
 | 🎨 **Explore Templates** | Pre-built budget templates with AI personalization |
 | 🗺️ **Onboarding Flow** | Guided financial onboarding modal for new users |
 | 🛡️ **Admin Panel** | Role-based admin route for platform management |
-| 📞 **Contact & Privacy Pages** | Full legal & support pages with form validation |
+| 📞 **Contact & Privacy** | Full legal & support pages with form validation |
+| 📧 **Smart Newsletter** | Interactive subscription system with validation |
+| ❓ **FAQ System** | Animated accordion for common user queries |
+| 🏢 **About Page** | Detailed vision and mission of ReceiptIQ |
 
 ---
 
@@ -82,6 +85,9 @@ Built on the bleeding-edge **Next.js 16 + Turbopack** pipeline, with full PWA su
 ### 7. 🔒 Zero-Cookie-Loss Proxy Architecture
 All backend API calls are routed through Next.js rewrites (`/api/v1/*`), ensuring authentication cookies are never dropped by cross-origin browser policies.
 
+### 8. 🎨 Advanced Light Mode Parity
+Unlike many "dark-first" apps, ReceiptIQ features a hand-tuned light mode that maintains premium aesthetics, WCAG-compliant contrast, and a consistent 3-primary-color palette across the entire platform.
+
 ---
 
 ## 🏗️ Project Structure
@@ -93,7 +99,7 @@ ReceiptIQ-frontend/
 │
 ├── src/
 │   ├── app/                    # Next.js App Router
-│   │   ├── (auth)/             # Auth group: login, register, verify-email
+│   │   ├── about/              # About us & mission page
 │   │   ├── contact/            # Contact page with RHF + Zod
 │   │   ├── dashboard/          # Protected dashboard area
 │   │   │   ├── admin/          # Admin-only panel
@@ -114,12 +120,15 @@ ReceiptIQ-frontend/
 │   │   ├── features/           # Landing page section components
 │   │   │   ├── AgenticChat.tsx
 │   │   │   ├── CTABanner.tsx
+│   │   │   ├── FAQ.tsx
 │   │   │   ├── FinancialOnboardingModal.tsx
 │   │   │   ├── GameChangingFeatures.tsx
 │   │   │   ├── GoalCoach.tsx
 │   │   │   ├── HowItWorks.tsx
 │   │   │   ├── ImpactMetrics.tsx
+│   │   │   ├── Newsletter.tsx
 │   │   │   ├── PlatformCapabilities.tsx
+│   │   │   ├── SmartFeatures.tsx
 │   │   │   └── Testimonials.tsx
 │   │   ├── providers/          # Context providers (Lenis, Theme, Query)
 │   │   ├── shared/             # Navbar, Footer, shared UI
