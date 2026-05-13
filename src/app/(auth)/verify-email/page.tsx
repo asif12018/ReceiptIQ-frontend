@@ -99,7 +99,7 @@ function VerifyEmailForm() {
   const fullCode = otp.join("");
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 flex items-center justify-center px-4">
       {/* Ambient glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
@@ -111,11 +111,11 @@ function VerifyEmailForm() {
           <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-indigo-600/30">
             R
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">ReceiptIQ</span>
+          <span className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">ReceiptIQ</span>
         </div>
 
         {/* Card */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 shadow-2xl">
           {/* Icon */}
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
@@ -125,11 +125,11 @@ function VerifyEmailForm() {
 
           {/* Heading */}
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-white mb-2">Check your email</h1>
-            <p className="text-zinc-400 text-sm leading-relaxed">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Check your email</h1>
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               We sent a 6-digit verification code to
             </p>
-            <p className="text-white font-semibold text-sm mt-1">{email}</p>
+            <p className="text-zinc-900 dark:text-white font-semibold text-sm mt-1">{email}</p>
           </div>
 
           {/* OTP Boxes */}
@@ -144,10 +144,10 @@ function VerifyEmailForm() {
                 value={digit}
                 onChange={(e) => handleChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2 bg-zinc-800 text-white outline-none transition-all duration-200
+                className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white outline-none transition-all duration-200
                   ${digit
                     ? "border-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.3)]"
-                    : "border-zinc-700"
+                    : "border-zinc-200 dark:border-zinc-700"
                   }
                   focus:border-indigo-400 focus:shadow-[0_0_16px_rgba(99,102,241,0.4)]`}
               />
@@ -168,7 +168,7 @@ function VerifyEmailForm() {
           </button>
 
           {/* Resend */}
-          <p className="text-center text-sm text-zinc-500">
+          <p className="text-center text-sm text-zinc-500 dark:text-zinc-500">
             Didn't receive the code?{" "}
             <button
               onClick={handleResend}
@@ -184,7 +184,7 @@ function VerifyEmailForm() {
         <div className="text-center mt-6">
           <Link
             href="/login"
-            className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 text-sm transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to login
@@ -199,8 +199,8 @@ function VerifyEmailForm() {
 export default function VerifyEmailPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+      <div className="min-h-screen bg-white dark:bg-zinc-950 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400 animate-spin" />
       </div>
     }>
       <VerifyEmailForm />

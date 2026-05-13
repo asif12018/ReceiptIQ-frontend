@@ -133,7 +133,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-white dark:bg-zinc-950 px-4">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
       </div>
@@ -143,15 +143,15 @@ export default function LoginPage() {
           <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-indigo-600/30">
             R
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">ReceiptIQ</span>
+          <span className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">ReceiptIQ</span>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 shadow-2xl">
           <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
               {isSignUp ? "Create an account" : "Welcome back"}
             </h1>
-            <p className="text-sm text-zinc-400 mt-1">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
               {isSignUp ? "Start tracking your expenses with AI" : "Sign in to your ReceiptIQ account"}
             </p>
           </div>
@@ -159,45 +159,45 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {isSignUp && (
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-1.5">Full Name</label>
+                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">Full Name</label>
                 <input
                   type="text"
                   {...register("name")}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 focus:ring-1 transition-all text-sm"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 focus:ring-1 transition-all text-sm"
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1.5">Email address</label>
+              <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">Email address</label>
               <input
                 type="email"
                 {...register("email")}
                 placeholder="you@example.com"
-                className={`w-full px-4 py-3 rounded-xl bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-1 transition-all text-sm ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                className={`w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border text-zinc-900 dark:text-white placeholder-zinc-500 focus:outline-none focus:ring-1 transition-all text-sm ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-zinc-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-indigo-500'}`}
               />
-              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+              {errors.email && <p className="text-red-500 dark:text-red-400 text-xs mt-1">{errors.email.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   placeholder="••••••••"
-                  className={`w-full px-4 py-3 pr-12 rounded-xl bg-zinc-800 border text-white placeholder-zinc-500 focus:outline-none focus:ring-1 transition-all text-sm ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                  className={`w-full px-4 py-3 pr-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 border text-zinc-900 dark:text-white placeholder-zinc-500 focus:outline-none focus:ring-1 transition-all text-sm ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-zinc-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-indigo-500'}`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
+              {errors.password && <p className="text-red-500 dark:text-red-400 text-xs mt-1">{errors.password.message}</p>}
             </div>
 
             <button
@@ -210,14 +210,14 @@ export default function LoginPage() {
           </form>
 
           <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-zinc-800" /></div>
-            <div className="relative flex justify-center text-xs"><span className="bg-zinc-900 px-3 text-zinc-500">Or continue with</span></div>
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-zinc-200 dark:border-zinc-800" /></div>
+            <div className="relative flex justify-center text-xs"><span className="bg-white dark:bg-zinc-900 px-3 text-zinc-500">Or continue with</span></div>
           </div>
 
           <button
             type="button"
             onClick={() => authClient.signIn.social({ provider: "google", callbackURL: `${window.location.origin}/dashboard`, errorCallbackURL: `${window.location.origin}/login` })}
-            className="w-full flex items-center justify-center gap-3 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 py-3 px-4 rounded-xl transition-all text-sm font-medium"
+            className="w-full flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-700 py-3 px-4 rounded-xl transition-all text-sm font-medium"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -229,11 +229,11 @@ export default function LoginPage() {
           </button>
 
           <div className="grid grid-cols-2 gap-3 mt-3">
-            <button type="button" onClick={handleDemoUser} className="text-xs py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-emerald-900/30 text-emerald-400 border border-zinc-700 transition-all font-medium">Demo User</button>
-            <button type="button" onClick={handleDemoAdmin} className="text-xs py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-purple-900/30 text-purple-400 border border-zinc-700 transition-all font-medium">Demo Admin</button>
+            <button type="button" onClick={handleDemoUser} className="text-xs py-2.5 px-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-emerald-900/10 dark:hover:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-zinc-200 dark:border-zinc-700 transition-all font-medium">Demo User</button>
+            <button type="button" onClick={handleDemoAdmin} className="text-xs py-2.5 px-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-purple-900/10 dark:hover:bg-purple-900/30 text-purple-600 dark:text-purple-400 border border-zinc-200 dark:border-zinc-700 transition-all font-medium">Demo Admin</button>
           </div>
 
-          <p className="text-center text-sm text-zinc-500 mt-6">
+          <p className="text-center text-sm text-zinc-600 dark:text-zinc-500 mt-6">
             {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
             {config?.newRegistrations !== false ? (
               <button type="button" onClick={() => { setIsSignUp(!isSignUp); clearErrors(); }} className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">

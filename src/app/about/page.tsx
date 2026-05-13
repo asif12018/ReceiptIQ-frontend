@@ -425,8 +425,7 @@ export default function AboutPage() {
                   <Link href="/explore">
                     <Button
                       size="lg"
-                      variant="outline"
-                      className="border-white/40 text-white hover:bg-white/10 rounded-full px-10 h-14 text-base"
+                      className="bg-transparent border-white/40 text-white hover:bg-white/10 rounded-full px-10 h-14 text-base"
                     >
                       Explore Templates
                     </Button>
