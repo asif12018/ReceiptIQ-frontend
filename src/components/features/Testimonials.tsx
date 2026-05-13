@@ -93,22 +93,22 @@ export function Testimonials() {
           </motion.p>
         </div>
 
-        {/* Masonry-style grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* Stable grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((t, idx) => (
             <motion.div
               key={t.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: (idx % 3) * 0.15, duration: 0.6 }}
-              className="break-inside-avoid bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/60 rounded-3xl p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+              transition={{ delay: (idx % 3) * 0.1, duration: 0.5 }}
+              className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/60 rounded-3xl p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
             >
               <Quote className="w-8 h-8 text-emerald-500/30 mb-4" />
-              <p className="text-zinc-700 dark:text-zinc-300 text-base leading-relaxed mb-6">
+              <p className="text-zinc-700 dark:text-zinc-300 text-base leading-relaxed mb-6 flex-1">
                 "{t.review}"
               </p>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-800/50">
                 <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-sm shrink-0`}>
                   {t.avatar}
                 </div>
