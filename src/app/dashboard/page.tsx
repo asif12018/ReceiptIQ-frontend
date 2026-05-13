@@ -28,8 +28,8 @@ function RecentReceipts() {
       <div className="divide-y divide-zinc-800">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="flex items-center justify-between py-3 gap-4">
-            <div className="h-4 w-36 bg-zinc-800 animate-pulse rounded" />
-            <div className="h-4 w-16 bg-zinc-800 animate-pulse rounded" />
+            <div className="h-4 w-36 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded" />
+            <div className="h-4 w-16 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded" />
           </div>
         ))}
       </div>
@@ -38,9 +38,9 @@ function RecentReceipts() {
 
   if (!receipts || receipts.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 border-2 border-dashed border-zinc-800/80 rounded-lg gap-2 bg-zinc-900/30">
+      <div className="flex flex-col items-center justify-center py-8 border-2 border-dashed border-zinc-200 dark:border-zinc-800/80 rounded-lg gap-2 bg-white dark:bg-zinc-900/30">
         <Sparkles className="w-6 h-6 text-indigo-500/50 mb-1" />
-        <p className="text-zinc-400 text-sm font-medium">No recent transactions</p>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">No recent transactions</p>
         <p className="text-zinc-600 text-xs">Scan a receipt or type an expense below</p>
       </div>
     );
@@ -51,7 +51,7 @@ function RecentReceipts() {
       {receipts.slice(0, 6).map((r) => (
         <div key={r.id} className="flex items-center justify-between py-3">
           <div>
-            <p className="text-sm font-medium text-zinc-100">{r.merchantName || "Unknown"}</p>
+            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-100">{r.merchantName || "Unknown"}</p>
             <p className="text-xs text-zinc-500">
               {r.category || "General"} ·{" "}
               {new Date(r.createdAt).toLocaleDateString("en-BD", { day: "numeric", month: "short" })}
@@ -85,7 +85,7 @@ function CategoryBreakdown() {
       .sort((a, b) => b.value - a.value);
   }, [receipts]);
 
-  if (isLoading) return <div className="h-40 bg-zinc-800 animate-pulse rounded-lg" />;
+  if (isLoading) return <div className="h-40 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-lg" />;
   if (!data.length) return <div className="h-40 flex items-center justify-center text-zinc-600 text-sm">No spending data yet</div>;
 
   return (
@@ -119,9 +119,9 @@ function CategoryLegend() {
         <div key={cat} className="flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full" style={{ background: CAT_COLORS[i % CAT_COLORS.length] }} />
-            <span className="text-zinc-400">{cat}</span>
+            <span className="text-zinc-500 dark:text-zinc-400">{cat}</span>
           </div>
-          <span className="text-zinc-300 font-medium">{currency} {Math.round(val).toLocaleString()}</span>
+          <span className="text-zinc-600 dark:text-zinc-300 font-medium">{currency} {Math.round(val).toLocaleString()}</span>
         </div>
       ))}
     </div>
@@ -147,7 +147,7 @@ function SpendingTrend() {
     return days;
   }, [allReceipts]);
 
-  if (isLoading) return <div className="h-32 bg-zinc-800 animate-pulse rounded-lg" />;
+  if (isLoading) return <div className="h-32 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-lg" />;
 
   return (
     <ResponsiveContainer width="100%" height={120}>
@@ -180,21 +180,21 @@ function BudgetProgress() {
   const isOver = pct >= 100;
 
   return (
-    <div className={`bg-zinc-900 border rounded-xl p-5 ${isOver ? "border-red-500/40" : isWarning ? "border-amber-500/30" : "border-zinc-800"}`}>
+    <div className={`bg-white dark:bg-zinc-900 border rounded-xl p-5 ${isOver ? "border-red-500/40" : isWarning ? "border-amber-500/30" : "border-zinc-200 dark:border-zinc-800"}`}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           {isWarning ? (
             <AlertTriangle className={`w-4 h-4 ${isOver ? "text-red-400" : "text-amber-400"}`} />
           ) : (
-            <Wallet className="w-4 h-4 text-zinc-400" />
+            <Wallet className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
           )}
-          <h3 className="text-sm font-medium text-zinc-300">Monthly Budget</h3>
+          <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">Monthly Budget</h3>
         </div>
-        <span className={`text-xs font-semibold ${isOver ? "text-red-400" : isWarning ? "text-amber-400" : "text-zinc-400"}`}>
+        <span className={`text-xs font-semibold ${isOver ? "text-red-400" : isWarning ? "text-amber-400" : "text-zinc-500 dark:text-zinc-400"}`}>
           {pct}% used
         </span>
       </div>
-      <div className="h-2.5 bg-zinc-800 rounded-full overflow-hidden mb-3">
+      <div className="h-2.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden mb-3">
         <div
           className={`h-full rounded-full transition-all duration-700 ${isOver ? "bg-red-500" : isWarning ? "bg-amber-500" : "bg-emerald-500"}`}
           style={{ width: `${pct}%` }}
@@ -303,7 +303,7 @@ function PrintableReport() {
       </div>
       
       {/* Footer */}
-      <div className="pt-8 mt-auto border-t border-zinc-200 text-center text-xs text-zinc-400">
+      <div className="pt-8 mt-auto border-t border-zinc-200 text-center text-xs text-zinc-500 dark:text-zinc-400">
         <p>Generated by ReceiptIQ AI Engine (Powered by Google Gemini 2.5 Flash)</p>
       </div>
     </div>
@@ -315,15 +315,15 @@ function MonthlySpendCard() {
   const { total, isLoading } = useMonthlySpend();
   const { currency } = useSettings();
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+    <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5">
       <div className="flex items-center gap-2 mb-2">
         <TrendingUp className="w-4 h-4 text-indigo-400" />
-        <h3 className="text-sm font-medium text-zinc-400">Total This Month</h3>
+        <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total This Month</h3>
       </div>
       {isLoading ? (
-        <div className="h-9 w-32 bg-zinc-800 animate-pulse rounded mt-1" />
+        <div className="h-9 w-32 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded mt-1" />
       ) : (
-        <p className="text-3xl font-bold text-white">{currency} {total.toLocaleString()}</p>
+        <p className="text-3xl font-bold text-zinc-900 dark:text-white">{currency} {total.toLocaleString()}</p>
       )}
     </div>
   );
@@ -359,12 +359,12 @@ export default function DashboardPage() {
       <div className="flex-1 p-8 pb-36 print:hidden" ref={targetRef}>
         <header id="tour-overview" className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">Financial Overview</h1>
-            <p className="text-zinc-400 mt-1">Your AI-powered insights and recent activity.</p>
+            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">Financial Overview</h1>
+            <p className="text-zinc-500 dark:text-zinc-400 mt-1">Your AI-powered insights and recent activity.</p>
           </div>
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors border border-indigo-500/50 print:hidden"
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-zinc-900 dark:text-white rounded-lg text-sm font-medium transition-colors border border-indigo-500/50 print:hidden"
           >
             <Download className="w-4 h-4" />
             Export PDF
@@ -391,8 +391,8 @@ export default function DashboardPage() {
           {/* Row 3 — Category Breakdown + 7-day trend + Recent */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Category breakdown */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5">
+              <h3 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-3">
                 Spending by Category
               </h3>
               <CategoryBreakdown />
@@ -400,17 +400,17 @@ export default function DashboardPage() {
             </div>
 
             {/* 7-day trend */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-4">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5">
+              <h3 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-4">
                 Last 7 Days
               </h3>
               <SpendingTrend />
             </div>
 
             {/* Recent Receipts */}
-            <div id="tour-recent" className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+            <div id="tour-recent" className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">
+                <h3 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
                   Recent Receipts
                 </h3>
                 <a href="/dashboard/receipts" className="text-xs text-indigo-400 hover:underline">
