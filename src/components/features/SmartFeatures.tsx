@@ -82,7 +82,7 @@ function BrainDumpTab() {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="e.g. I bought a coffee for 500, paid rent 15000, and ordered UberEats for 1200."
-        className="w-full h-24 bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 text-sm text-zinc-900 dark:text-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 custom-scrollbar"
+        className="w-full h-24 bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg p-4 text-sm text-zinc-900 dark:text-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 custom-scrollbar"
         disabled={isPending}
       />
       <div className="flex justify-end">
@@ -141,7 +141,7 @@ function TimeTravelTab() {
               <span>2 years</span>
             </div>
           </div>
-          <div className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 rounded-xl text-center">
+          <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 rounded-xl text-center">
             <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Projected Bank Balance</p>
             <p className={`text-4xl font-black ${futureSavings >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {futureSavings >= 0 ? "+" : "-"}{currency} {Math.abs(futureSavings).toLocaleString()}
@@ -212,7 +212,7 @@ function SubscriptionsTab() {
       {analyzed && !isLoading && subs?.length > 0 && (
         <div className="space-y-3 mt-4">
           {subs.map((sub: any, i: number) => (
-            <div key={i} className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div key={i} className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <p className="font-bold text-zinc-900 dark:text-white">{sub.merchant}</p>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">Estimated Cost: {currency} {sub.estimatedMonthlyCost.toLocaleString()} / mo</p>
@@ -222,7 +222,7 @@ function SubscriptionsTab() {
                   navigator.clipboard.writeText(sub.draftCancellationEmail);
                   toast.success("Cancellation email copied to clipboard!");
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-900 dark:text-zinc-200 rounded text-sm transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-200 rounded text-sm transition-colors"
               >
                 <Mail className="w-4 h-4" /> Copy Cancellation Email
               </button>

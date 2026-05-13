@@ -88,9 +88,9 @@ function AiInsightPanel() {
 
       {/* Spending insight banner */}
       {insights.spendingInsight && (
-        <div className="bg-indigo-950/30 border border-indigo-500/20 rounded-lg px-4 py-3 flex items-start gap-3">
-          <Sparkles className="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" />
-          <p className="text-sm text-indigo-200 leading-relaxed">{insights.spendingInsight}</p>
+        <div className="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-500/20 rounded-lg px-4 py-3 flex items-start gap-3">
+          <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400 mt-0.5 shrink-0" />
+          <p className="text-sm text-indigo-900 dark:text-indigo-200 leading-relaxed">{insights.spendingInsight}</p>
         </div>
       )}
 
@@ -281,9 +281,9 @@ function GoalAdvicePanel({ activeGoal }: { activeGoal: NonNullable<ReturnType<ty
           </span>
         </div>
 
-        <div className="bg-indigo-950/20 border border-indigo-500/20 rounded-lg p-5 flex-1">
+        <div className="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-500/20 rounded-lg p-5 flex-1">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-indigo-400 font-medium text-sm flex items-center gap-2">
+            <h4 className="text-indigo-600 dark:text-indigo-400 font-medium text-sm flex items-center gap-2">
               <Sparkles className="w-4 h-4" /> AI Advisor Notes
             </h4>
             <button

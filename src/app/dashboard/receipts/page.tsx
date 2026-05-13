@@ -78,7 +78,7 @@ export default function ReceiptsPage() {
             ))}
           </div>
         </div>
-        <button onClick={() => {/* export Logic */}} disabled={!filtered?.length} className="flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg text-sm font-medium transition-colors border border-zinc-700 disabled:opacity-50">
+        <button onClick={() => {/* export Logic */}} disabled={!filtered?.length} className="flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-200 rounded-lg text-sm font-medium transition-colors border border-zinc-300 dark:border-zinc-700 disabled:opacity-50">
           <Download className="w-4 h-4" /> Export CSV
         </button>
       </div>
@@ -115,9 +115,9 @@ export default function ReceiptsPage() {
             </div>
             <div className="divide-y divide-zinc-800/60">
               {paginatedReceipts.map((r) => (
-                <div key={r.id} className="grid grid-cols-[1fr_auto_auto_auto] gap-4 items-center px-6 py-4 hover:bg-zinc-100 dark:bg-zinc-800/30 transition-colors">
+                <div key={r.id} className="grid grid-cols-[1fr_auto_auto_auto] gap-4 items-center px-6 py-4 hover:bg-zinc-100 dark:bg-zinc-800/30 transition-colors border-zinc-200 dark:border-zinc-800/60">
                   <div>
-                    <p className="text-sm font-medium text-zinc-100">{r.merchantName || "Unknown Merchant"}</p>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{r.merchantName || "Unknown Merchant"}</p>
                     {r.items && r.items.length > 0 && <p className="text-xs text-zinc-500 mt-0.5">{r.items.length} item{r.items.length !== 1 ? "s" : ""}</p>}
                   </div>
                   <span className="text-sm font-bold text-zinc-900 dark:text-white text-right whitespace-nowrap">{currency} {r.totalAmount.toLocaleString()}</span>
@@ -131,7 +131,7 @@ export default function ReceiptsPage() {
             {totalPages > 1 && (
               <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-zinc-50 dark:bg-zinc-950/30">
                 <span className="text-sm text-zinc-500">
-                  Showing <span className="font-medium text-zinc-300">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-zinc-300">{Math.min(currentPage * itemsPerPage, filtered.length)}</span> of <span className="font-medium text-zinc-300">{filtered.length}</span> results
+                  Showing <span className="font-medium text-zinc-900 dark:text-zinc-300">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-zinc-900 dark:text-zinc-300">{Math.min(currentPage * itemsPerPage, filtered.length)}</span> of <span className="font-medium text-zinc-900 dark:text-zinc-300">{filtered.length}</span> results
                 </span>
                 <div className="flex items-center gap-2">
                   <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-700 hover:text-zinc-900 dark:text-white disabled:opacity-50">
