@@ -8,23 +8,17 @@ import {
   ToggleLeft, ToggleRight, Sparkles
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area } from "recharts";
-import { useAdminStats, useAdminUsers, useUpdateUserRole, useDeleteUser } from "@/hooks/useAdmin";
+import { useAdminStats, useAdminUsers, useUpdateUserRole, useDeleteUser, useAdminSystemInfo, useUpdateSystemSettings } from "@/hooks/useAdmin";
 import { toast } from "sonner";
-import { useState, useMemo } from "react";
-
-const mockAiFeed = [
-  { id: 1, action: "User scanned a grocery receipt", tokens: 120, time: "2 mins ago" },
-  { id: 2, action: "Goal Coach generated budget advice", tokens: 450, time: "5 mins ago" },
-  { id: 3, action: "User asked Agentic Chat about spending", tokens: 850, time: "12 mins ago" },
-  { id: 4, action: "User scanned a restaurant receipt", tokens: 110, time: "1 hour ago" },
-  { id: 5, action: "User asked Agentic Chat to categorize expenses", tokens: 620, time: "2 hours ago" },
-];
+import { useState, useMemo, useEffect } from "react";
 
 export default function AdminDashboardPage() {
   const { data: stats, isLoading: isStatsLoading } = useAdminStats();
   const { data: users, isLoading: isUsersLoading } = useAdminUsers();
+  const { data: systemInfo, isLoading: isSystemLoading } = useAdminSystemInfo();
   const { mutate: updateRole } = useUpdateUserRole();
   const { mutate: deleteUser } = useDeleteUser();
+  const { mutate: updateSettings } = useUpdateSystemSettings();
   
   const [activeTab, setActiveTab] = useState("overview");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -35,12 +29,25 @@ export default function AdminDashboardPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 8;
 
-  // Settings State (Mock)
+  // Settings State
   const [settings, setSettings] = useState({
     newRegistrations: true,
     maintenanceMode: false,
     systemPrompt: "You are a highly intelligent financial assistant for ReceiptIQ..."
   });
+
+  useEffect(() => {
+    if (systemInfo?.settings) {
+      setSettings(systemInfo.settings);
+    }
+  }, [systemInfo]);
+
+  const handleSaveSettings = () => {
+    updateSettings(settings, {
+      onSuccess: () => toast.success("System settings updated successfully!"),
+      onError: (err) => toast.error(err.message || "Failed to update settings")
+    });
+  };
 
   const handleRoleChange = (userId: string, newRole: "USER" | "ADMIN") => {
     setUpdatingId(userId);
@@ -341,30 +348,53 @@ export default function AdminDashboardPage() {
               
               <div className="mb-2 flex justify-between text-sm">
                 <span className="text-zinc-300 font-medium">Daily API Requests (Free Tier)</span>
-                <span className="text-indigo-400 font-bold">452 / 1,500 requests</span>
+                {isSystemLoading ? (
+                  <div className="h-5 w-24 bg-zinc-800 animate-pulse rounded" />
+                ) : (
+                  <span className="text-indigo-400 font-bold">{systemInfo?.dailyQuota || 0} / 1,500 requests</span>
+                )}
               </div>
               <div className="h-3 w-full bg-zinc-800 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-500" style={{ width: '30.1%' }} />
+                <div 
+                  className="h-full bg-gradient-to-r from-indigo-500 to-indigo-500 transition-all duration-1000" 
+                  style={{ width: `${Math.min(((systemInfo?.dailyQuota || 0) / 1500) * 100, 100)}%` }} 
+                />
               </div>
-              <p className="text-xs text-zinc-500 mt-2 text-right">~30.1% of daily limit used</p>
+              <p className="text-xs text-zinc-500 mt-2 text-right">
+                ~{((systemInfo?.dailyQuota || 0) / 15).toFixed(1)}% of daily limit used
+              </p>
             </div>
 
             <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
               <h3 className="text-base font-semibold text-white mb-6">Recent Agent Actions (Live Feed)</h3>
               <div className="space-y-4">
-                {mockAiFeed.map(log => (
-                  <div key={log.id} className="flex items-start justify-between p-4 bg-zinc-950/50 rounded-lg border border-zinc-800/80">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-sm font-medium text-zinc-200">{log.action}</span>
-                      <span className="text-xs text-zinc-500">{log.time}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-xs font-mono px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20">
-                        {log.tokens} tokens
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                {isSystemLoading ? (
+                  [...Array(5)].map((_, i) => (
+                    <div key={i} className="h-16 bg-zinc-800/50 animate-pulse rounded-lg" />
+                  ))
+                ) : systemInfo?.aiLogs && systemInfo.aiLogs.length > 0 ? (
+                  systemInfo.aiLogs.map(log => {
+                    const date = new Date(log.createdAt);
+                    const isToday = new Date().toDateString() === date.toDateString();
+                    return (
+                      <div key={log.id} className="flex items-start justify-between p-4 bg-zinc-950/50 rounded-lg border border-zinc-800/80">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-sm font-medium text-zinc-200">{log.action}</span>
+                          <span className="text-xs text-zinc-500">
+                            {isToday ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : date.toLocaleDateString()}
+                          </span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs font-mono px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20">
+                            {log.tokens} tokens
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-6 text-zinc-500">No AI usage logs found for today.</div>
+                )}
               </div>
             </div>
           </div>
@@ -436,8 +466,8 @@ export default function AdminDashboardPage() {
               />
               <div className="flex justify-end">
                 <button 
-                  onClick={() => toast.success("System prompt updated!")}
-                  className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-sm font-medium transition-colors"
+                  onClick={handleSaveSettings}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20"
                 >
                   Save Changes
                 </button>

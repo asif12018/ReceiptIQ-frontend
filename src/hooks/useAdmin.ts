@@ -84,3 +84,47 @@ export const useDeleteUser = () => {
     },
   });
 };
+
+export interface SystemInfo {
+  aiLogs: { id: string; action: string; tokens: number; createdAt: string }[];
+  dailyQuota: number;
+  settings: {
+    newRegistrations: boolean;
+    maintenanceMode: boolean;
+    systemPrompt: string;
+  };
+}
+
+export const useAdminSystemInfo = () => {
+  return useQuery<SystemInfo>({
+    queryKey: ["admin-system-info"],
+    queryFn: async () => {
+      const res = await fetch(`${API}/users/admin/system-info`, {
+        credentials: "include",
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.message || "Failed to fetch system info");
+      return json.data;
+    },
+  });
+};
+
+export const useUpdateSystemSettings = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Partial<SystemInfo["settings"]>) => {
+      const res = await fetch(`${API}/users/admin/system-info`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.message || "Failed to update system settings");
+      return json.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-system-info"] });
+    },
+  });
+};
