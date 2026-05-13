@@ -1,8 +1,28 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { CheckCircle2, Loader2 } from "lucide-react";
 
 export function Footer() {
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    setIsLoading(false);
+    setIsSubscribed(true);
+    toast.success("Subscribed to the newsletter!");
+  };
+
   return (
     <footer className="bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 pt-16 pb-8 px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
@@ -40,10 +60,27 @@ export function Footer() {
         <div>
           <h3 className="text-zinc-900 dark:text-white font-semibold mb-4">Stay Updated</h3>
           <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-4">Get the latest AI financial tips.</p>
-          <div className="flex gap-2">
-            <Input type="email" placeholder="Your email" className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white" />
-            <Button className="bg-emerald-600 hover:bg-emerald-500 text-white">Subscribe</Button>
-          </div>
+          
+          {!isSubscribed ? (
+            <form onSubmit={handleSubscribe} className="flex gap-2">
+              <Input 
+                type="email" 
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email" 
+                className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white" 
+              />
+              <Button type="submit" disabled={isLoading} className="bg-emerald-600 hover:bg-emerald-500 text-white min-w-[100px]">
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Subscribe"}
+              </Button>
+            </form>
+          ) : (
+            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium text-sm py-2">
+              <CheckCircle2 className="w-4 h-4" />
+              Subscribed!
+            </div>
+          )}
         </div>
       </div>
 
