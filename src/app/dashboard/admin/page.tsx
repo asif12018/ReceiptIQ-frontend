@@ -340,13 +340,13 @@ export default function AdminDashboardPage() {
               <p className="text-sm text-zinc-400 mb-6">Track your platform's usage of the Google Gemini API to prevent overages.</p>
               
               <div className="mb-2 flex justify-between text-sm">
-                <span className="text-zinc-300 font-medium">Estimated Token Usage (Monthly)</span>
-                <span className="text-indigo-400 font-bold">128,450 / 1,000,000 tokens</span>
+                <span className="text-zinc-300 font-medium">Daily API Requests (Free Tier)</span>
+                <span className="text-indigo-400 font-bold">452 / 1,500 requests</span>
               </div>
               <div className="h-3 w-full bg-zinc-800 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-500" style={{ width: '12.8%' }} />
+                <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-500" style={{ width: '30.1%' }} />
               </div>
-              <p className="text-xs text-zinc-500 mt-2 text-right">~12.8% of Free Tier used</p>
+              <p className="text-xs text-zinc-500 mt-2 text-right">~30.1% of daily limit used</p>
             </div>
 
             <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
