@@ -35,8 +35,11 @@ export default function AgenticChat() {
       recognitionRef.current.interimResults = false;
       recognitionRef.current.lang = "en-US";
       recognitionRef.current.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setInput((prev) => (prev ? prev + " " + transcript : transcript));
+        const result = event.results[event.results.length - 1];
+        if (result.isFinal) {
+          const transcript = result[0].transcript.trim();
+          setInput((prev) => (prev ? prev.trim() + " " + transcript : transcript));
+        }
       };
       recognitionRef.current.onend = () => setIsRecording(false);
     }
