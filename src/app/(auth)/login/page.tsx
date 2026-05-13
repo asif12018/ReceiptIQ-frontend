@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -22,6 +23,17 @@ export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { data: config } = useQuery({
+    queryKey: ["system-config"],
+    queryFn: async () => {
+      const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+      const res = await fetch(`${API}/users/system-config`);
+      const json = await res.json();
+      return json.data;
+    },
+    staleTime: 60 * 1000,
+  });
 
   const { register, handleSubmit, formState: { errors }, setValue, clearErrors } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -53,6 +65,12 @@ export default function LoginPage() {
     // In Sign Up mode, require name
     if (isSignUp && (!data.name || data.name.trim().length === 0)) {
       toast.error("Full name is required for sign up");
+      setIsLoading(false);
+      return;
+    }
+
+    if (isSignUp && config?.newRegistrations === false) {
+      toast.error("New registrations are currently disabled by the administrator.");
       setIsLoading(false);
       return;
     }
@@ -217,9 +235,15 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-zinc-500 mt-6">
             {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-            <button type="button" onClick={() => { setIsSignUp(!isSignUp); clearErrors(); }} className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
-              {isSignUp ? "Sign In" : "Sign Up"}
-            </button>
+            {config?.newRegistrations !== false ? (
+              <button type="button" onClick={() => { setIsSignUp(!isSignUp); clearErrors(); }} className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+                {isSignUp ? "Sign In" : "Sign Up"}
+              </button>
+            ) : (
+              <span className="text-zinc-600 cursor-not-allowed" title="Registrations are currently disabled">
+                Sign Up Disabled
+              </span>
+            )}
           </p>
         </div>
       </div>

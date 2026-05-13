@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 import { LenisProvider } from "@/components/providers/LenisProvider";
+import { SystemGuard } from "@/components/shared/SystemGuard";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -24,7 +25,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <LenisProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-          {children}
+          <SystemGuard>
+            {children}
+          </SystemGuard>
         </ThemeProvider>
       </QueryClientProvider>
     </LenisProvider>
