@@ -77,24 +77,24 @@ function AddSavingsModal({ goal, onClose }: { goal: Goal; onClose: () => void })
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-lg font-bold text-white">Add Savings</h3>
-            <p className="text-sm text-zinc-500">{goal.title}</p>
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white">Add Savings</h3>
+            <p className="text-sm text-zinc-900 dark:text-zinc-500">{goal.title}</p>
           </div>
-          <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-zinc-900 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="bg-zinc-800/50 rounded-xl p-4 mb-5">
+        <div className="bg-zinc-100 dark:bg-zinc-800/50 rounded-xl p-4 mb-5">
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-zinc-400">Saved</span>
-            <span className="text-white font-semibold">৳ {goal.savedAmount.toLocaleString()}</span>
+            <span className="text-zinc-500 dark:text-zinc-400">Saved</span>
+            <span className="text-zinc-900 dark:text-white font-semibold">৳ {goal.savedAmount.toLocaleString()}</span>
           </div>
           <div className="flex justify-between text-sm mb-3">
-            <span className="text-zinc-400">Remaining</span>
+            <span className="text-zinc-500 dark:text-zinc-400">Remaining</span>
             <span className="text-indigo-400 font-semibold">৳ {remaining.toLocaleString()}</span>
           </div>
           <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
@@ -116,7 +116,7 @@ function AddSavingsModal({ goal, onClose }: { goal: Goal; onClose: () => void })
               onChange={(e) => setAmount(e.target.value)}
               placeholder={`Max ৳ ${remaining.toLocaleString()}`}
               autoFocus
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-zinc-50 placeholder:text-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none text-sm"
+              className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-3 text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-900 dark:text-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none text-sm"
             />
             {/* Quick-fill buttons */}
             <div className="flex gap-2 mt-2">
@@ -125,7 +125,7 @@ function AddSavingsModal({ goal, onClose }: { goal: Goal; onClose: () => void })
                   key={v}
                   type="button"
                   onClick={() => setAmount(String(Math.min(v, remaining)))}
-                  className="flex-1 text-xs py-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white transition-colors border border-zinc-700"
+                  className="flex-1 text-xs py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-700 hover:text-zinc-900 dark:text-white transition-colors border border-zinc-200 dark:border-zinc-700"
                 >
                   +৳{v >= 1000 ? `${v / 1000}k` : v}
                 </button>
@@ -142,7 +142,7 @@ function AddSavingsModal({ goal, onClose }: { goal: Goal; onClose: () => void })
           <Button
             type="submit"
             disabled={isSaving || !amount}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium"
+            className="w-full bg-indigo-600 hover:bg-indigo-500 text-zinc-900 dark:text-white rounded-lg font-medium"
           >
             {isSaving ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Adding…</> : "Add to Goal"}
           </Button>
@@ -158,25 +158,25 @@ function GoalAiPanel({ goal, onClose }: { goal: Goal; onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-indigo-400" />
               AI Coach
             </h3>
-            <p className="text-sm text-zinc-500">{goal.title}</p>
+            <p className="text-sm text-zinc-900 dark:text-zinc-500">{goal.title}</p>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => refetch()}
               disabled={isFetching}
-              className="text-zinc-500 hover:text-indigo-400 transition-colors disabled:opacity-50"
+              className="text-zinc-900 dark:text-zinc-500 hover:text-indigo-400 transition-colors disabled:opacity-50"
               title="Refresh advice"
             >
               <RefreshCw className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`} />
             </button>
-            <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+            <button onClick={onClose} className="text-zinc-900 dark:text-zinc-500 hover:text-zinc-900 dark:text-white transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -184,20 +184,20 @@ function GoalAiPanel({ goal, onClose }: { goal: Goal; onClose: () => void }) {
 
         {isLoading || isFetching ? (
           <div className="space-y-3 py-4">
-            <div className="h-12 bg-zinc-800 animate-pulse rounded-xl" />
-            {[1, 2, 3].map((i) => <div key={i} className="h-4 bg-zinc-800 animate-pulse rounded w-full" />)}
+            <div className="h-12 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-xl" />
+            {[1, 2, 3].map((i) => <div key={i} className="h-4 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded w-full" />)}
           </div>
         ) : advice ? (
           <div className="space-y-4">
             <div className="bg-indigo-950/30 border border-indigo-500/20 rounded-xl p-4 flex items-center gap-4">
               <div>
-                <p className="text-xs text-zinc-500 mb-0.5">Recommended Daily Cap</p>
-                <p className="text-2xl font-bold text-white">৳ {Math.round(advice.dailyBudgetCap).toLocaleString()}</p>
+                <p className="text-xs text-zinc-900 dark:text-zinc-500 mb-0.5">Recommended Daily Cap</p>
+                <p className="text-2xl font-bold text-zinc-900 dark:text-white">৳ {Math.round(advice.dailyBudgetCap).toLocaleString()}</p>
               </div>
               <TrendingUp className="w-8 h-8 text-indigo-400/50 ml-auto shrink-0" />
             </div>
             <div>
-              <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">AI Tips</p>
+              <p className="text-xs text-zinc-900 dark:text-zinc-500 uppercase tracking-wider mb-2">AI Tips</p>
               <ul className="space-y-2">
                 {advice.costingSuggestions.map((tip, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-zinc-300">
@@ -209,7 +209,7 @@ function GoalAiPanel({ goal, onClose }: { goal: Goal; onClose: () => void }) {
             </div>
           </div>
         ) : (
-          <p className="text-zinc-500 text-sm text-center py-6">
+          <p className="text-zinc-900 dark:text-zinc-500 text-sm text-center py-6">
             Click <RefreshCw className="inline w-3 h-3" /> to generate your personalized AI advice.
           </p>
         )}
@@ -237,12 +237,12 @@ function GoalCard({ goal, onAddSavings, onAiAdvice }: {
         ? "border-emerald-500/30 bg-emerald-950/10"
         : isOverdue
         ? "border-red-500/20 bg-red-950/5"
-        : "border-zinc-700/80 bg-zinc-800/30"
+        : "border-zinc-200 dark:border-zinc-700/80 bg-zinc-100 dark:bg-zinc-800/30"
     }`}>
       <div className="flex items-start justify-between mb-3 gap-2">
         <div className="min-w-0">
-          <h3 className="font-semibold text-white text-sm truncate">{goal.title}</h3>
-          <p className="text-xs text-zinc-500 mt-0.5">
+          <h3 className="font-semibold text-zinc-900 dark:text-white text-sm truncate">{goal.title}</h3>
+          <p className="text-xs text-zinc-900 dark:text-zinc-500 mt-0.5">
             Target: ৳ {goal.targetAmount.toLocaleString()}
           </p>
         </div>
@@ -250,7 +250,7 @@ function GoalCard({ goal, onAddSavings, onAiAdvice }: {
           {isComplete ? (
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           ) : (
-            <span className={`flex items-center gap-1 text-xs ${isOverdue ? "text-red-400" : "text-zinc-500"}`}>
+            <span className={`flex items-center gap-1 text-xs ${isOverdue ? "text-red-400" : "text-zinc-900 dark:text-zinc-500"}`}>
               <Clock className="w-3 h-3" />
               {isOverdue ? "Overdue" : `${daysLeft}d`}
             </span>
@@ -267,7 +267,7 @@ function GoalCard({ goal, onAddSavings, onAiAdvice }: {
           style={{ width: `${pct}%` }}
         />
       </div>
-      <div className="flex justify-between text-xs text-zinc-500 mb-3">
+      <div className="flex justify-between text-xs text-zinc-900 dark:text-zinc-500 mb-3">
         <span>৳ {goal.savedAmount.toLocaleString()} saved</span>
         <span className={isComplete ? "text-emerald-400" : "text-indigo-400"}>{pct}%</span>
       </div>
@@ -290,7 +290,7 @@ function GoalCard({ goal, onAddSavings, onAiAdvice }: {
           </button>
           <button
             onClick={() => onAiAdvice(goal)}
-            className="flex-1 flex items-center justify-center gap-1.5 text-xs py-2 rounded-lg bg-zinc-800 text-zinc-400 border border-zinc-700 hover:bg-zinc-700 hover:text-white transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 text-xs py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-700 hover:text-zinc-900 dark:text-white transition-colors"
           >
             <Sparkles className="w-3.5 h-3.5" />
             AI Coach
@@ -349,11 +349,11 @@ export default function GoalsPage() {
       {aiGoal && <GoalAiPanel goal={aiGoal} onClose={() => setAiGoal(null)} />}
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight flex items-center gap-3">
           <Target className="w-8 h-8 text-indigo-500" />
           Financial Goals
         </h1>
-        <p className="text-zinc-400 mt-1">Set targets and let the AI guide your spending.</p>
+        <p className="text-zinc-500 dark:text-zinc-400 mt-1">Set targets and let the AI guide your spending.</p>
       </header>
 
       {/* Summary strip */}
@@ -364,9 +364,9 @@ export default function GoalsPage() {
             { label: "Total Saved", value: `৳ ${totalSaved.toLocaleString()}` },
             { label: "Total Target", value: `৳ ${totalTarget.toLocaleString()}` },
           ].map((s) => (
-            <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center">
-              <p className="text-xl font-bold text-white">{s.value}</p>
-              <p className="text-xs text-zinc-500 mt-0.5">{s.label}</p>
+            <div key={s.label} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-center">
+              <p className="text-xl font-bold text-zinc-900 dark:text-white">{s.value}</p>
+              <p className="text-xs text-zinc-900 dark:text-zinc-500 mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>
@@ -374,8 +374,8 @@ export default function GoalsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Create form */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-xl">
-          <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 shadow-xl">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
             <Plus className="w-5 h-5 text-indigo-400" /> Create New Goal
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -385,7 +385,7 @@ export default function GoalsPage() {
                 id="goal-title" type="text" required value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Buy a Bike, Emergency Fund, New Laptop"
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-zinc-50 placeholder:text-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
+                className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-3 text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-900 dark:text-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
               />
             </div>
             <div>
@@ -394,7 +394,7 @@ export default function GoalsPage() {
                 id="goal-amount" type="number" required min="1" value={targetAmount}
                 onChange={(e) => setTargetAmount(e.target.value)}
                 placeholder="e.g. 150000"
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-zinc-50 placeholder:text-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
+                className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-3 text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-900 dark:text-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
               />
             </div>
             <div>
@@ -402,17 +402,17 @@ export default function GoalsPage() {
               <input
                 id="goal-date" type="date" required value={targetDate}
                 onChange={(e) => setTargetDate(e.target.value)}
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-zinc-50 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
+                className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-3 text-zinc-900 dark:text-zinc-50 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm"
               />
             </div>
             <Button type="submit" disabled={isCreating}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-medium transition-all">
+              className="w-full bg-indigo-600 hover:bg-indigo-500 text-zinc-900 dark:text-white py-3 rounded-lg font-medium transition-all">
               {isCreating ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Creating…</> : "Create Goal"}
             </Button>
           </form>
 
-          <div className="mt-5 p-4 bg-zinc-800/40 rounded-xl border border-zinc-700/50">
-            <p className="text-xs text-zinc-500 font-medium mb-2">💡 Or ask the AI chat:</p>
+          <div className="mt-5 p-4 bg-zinc-100 dark:bg-zinc-800/40 rounded-xl border border-zinc-200 dark:border-zinc-700/50">
+            <p className="text-xs text-zinc-900 dark:text-zinc-500 font-medium mb-2">💡 Or ask the AI chat:</p>
             <div className="space-y-1">
               {[
                 '"Save 1.5 lakh for a motorcycle by December"',
@@ -425,11 +425,11 @@ export default function GoalsPage() {
         </div>
 
         {/* Goals list */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-white mb-5 flex items-center justify-between">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-5 flex items-center justify-between">
             <span>Your Goals</span>
             {inProgress.length > 0 && (
-              <span className="text-xs font-normal text-zinc-500 bg-zinc-800 px-2 py-1 rounded-full">
+              <span className="text-xs font-normal text-zinc-900 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-full">
                 {inProgress.length} active
               </span>
             )}
@@ -437,12 +437,12 @@ export default function GoalsPage() {
 
           {isLoading ? (
             <div className="space-y-3">
-              {[1, 2, 3].map((i) => <div key={i} className="h-32 bg-zinc-800 animate-pulse rounded-xl" />)}
+              {[1, 2, 3].map((i) => <div key={i} className="h-32 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-xl" />)}
             </div>
           ) : !goals || goals.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-center gap-3">
               <Target className="w-12 h-12 text-zinc-700" />
-              <p className="text-zinc-400 text-sm">No goals yet. Create your first one!</p>
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm">No goals yet. Create your first one!</p>
             </div>
           ) : (
             <div className="space-y-3 max-h-[520px] overflow-y-auto pr-1">

@@ -167,7 +167,7 @@ export default function AgenticChat() {
             <div className="self-end pointer-events-auto">
               <button
                 onClick={clearMessages}
-                className="flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="flex items-center gap-1 text-xs text-zinc-900 dark:text-zinc-500 hover:text-zinc-300 transition-colors"
               >
                 <X className="w-3 h-3" /> Clear
               </button>
@@ -182,8 +182,8 @@ export default function AgenticChat() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className={`p-4 rounded-2xl max-w-[80%] shadow-lg pointer-events-auto text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-indigo-600 text-white self-end rounded-br-sm"
-                    : "bg-zinc-800 border border-zinc-700 text-zinc-100 self-start rounded-bl-sm"
+                    ? "bg-indigo-600 text-zinc-900 dark:text-white self-end rounded-br-sm"
+                    : "bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 self-start rounded-bl-sm"
                 }`}
               >
                 {msg.content}
@@ -194,7 +194,7 @@ export default function AgenticChat() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="bg-zinc-800 border border-zinc-700 p-4 rounded-2xl max-w-[80%] self-start rounded-bl-sm pointer-events-auto flex gap-2 items-center"
+                className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 rounded-2xl max-w-[80%] self-start rounded-bl-sm pointer-events-auto flex gap-2 items-center"
               >
                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: "0ms" }} />
                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -206,16 +206,16 @@ export default function AgenticChat() {
       </div>
 
       {/* Input Area */}
-      <div className="fixed bottom-0 left-64 right-0 p-6 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-transparent pointer-events-none z-50">
+      <div className="fixed bottom-0 left-64 right-0 p-6 bg-gradient-to-t from-white via-white/90 dark:from-zinc-950 dark:via-zinc-950/90 to-transparent pointer-events-none z-50">
         <div id="tour-chat" className="max-w-4xl mx-auto pointer-events-auto">
-          <div className="relative flex items-center bg-zinc-900 border border-zinc-700 rounded-full shadow-2xl p-2 transition-all focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+          <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-full shadow-2xl p-2 transition-all focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
             {/* Receipt upload */}
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
               title="Scan a receipt image"
-              className="p-3 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors shrink-0 disabled:opacity-50"
+              className="p-3 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white hover:bg-zinc-100 dark:bg-zinc-800 transition-colors shrink-0 disabled:opacity-50"
             >
               <Upload className="w-5 h-5" />
             </button>
@@ -233,7 +233,7 @@ export default function AgenticChat() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Ask ReceiptIQ or add an expense…"
-              className="flex-1 bg-transparent border-none px-4 text-zinc-50 placeholder-zinc-500 focus:outline-none min-w-0 text-sm"
+              className="flex-1 bg-transparent border-none px-4 text-zinc-900 dark:text-zinc-50 placeholder-zinc-500 focus:outline-none min-w-0 text-sm"
               disabled={chatMutation.isPending || isUploading}
             />
 
@@ -243,7 +243,7 @@ export default function AgenticChat() {
               className={`p-3 rounded-full transition-colors shrink-0 ${
                 isRecording
                   ? "text-red-500 animate-pulse bg-red-500/10"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-800"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:text-white hover:bg-zinc-100 dark:bg-zinc-800"
               }`}
             >
               {isRecording ? <Square className="w-5 h-5 fill-current" /> : <Mic className="w-5 h-5" />}
@@ -253,7 +253,7 @@ export default function AgenticChat() {
               type="button"
               onClick={handleSend}
               disabled={!input.trim() || chatMutation.isPending || isUploading}
-              className="p-3 ml-1 rounded-full bg-indigo-600 text-white hover:bg-indigo-500 transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-3 ml-1 rounded-full bg-indigo-600 text-zinc-900 dark:text-white hover:bg-indigo-500 transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-5 h-5" />
             </button>

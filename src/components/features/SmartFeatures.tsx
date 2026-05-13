@@ -12,23 +12,23 @@ export default function SmartFeatures() {
   const [activeTab, setActiveTab] = useState<"braindump" | "timetravel" | "subscriptions">("braindump");
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden mt-6">
-      <div className="flex border-b border-zinc-800 bg-zinc-950/50">
+    <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden mt-6">
+      <div className="flex border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/50">
         <button
           onClick={() => setActiveTab("braindump")}
-          className={`flex-1 py-3 text-sm font-medium transition-colors flex justify-center gap-2 items-center ${activeTab === "braindump" ? "text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5" : "text-zinc-500 hover:text-zinc-300"}`}
+          className={`flex-1 py-3 text-sm font-medium transition-colors flex justify-center gap-2 items-center ${activeTab === "braindump" ? "text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5" : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-300"}`}
         >
           <BrainCircuit className="w-4 h-4" /> Multi-Modal Brain Dump
         </button>
         <button
           onClick={() => setActiveTab("timetravel")}
-          className={`flex-1 py-3 text-sm font-medium transition-colors flex justify-center gap-2 items-center ${activeTab === "timetravel" ? "text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5" : "text-zinc-500 hover:text-zinc-300"}`}
+          className={`flex-1 py-3 text-sm font-medium transition-colors flex justify-center gap-2 items-center ${activeTab === "timetravel" ? "text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5" : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-300"}`}
         >
           <FastForward className="w-4 h-4" /> Time-Travel Forecast
         </button>
         <button
           onClick={() => setActiveTab("subscriptions")}
-          className={`flex-1 py-3 text-sm font-medium transition-colors flex justify-center gap-2 items-center ${activeTab === "subscriptions" ? "text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5" : "text-zinc-500 hover:text-zinc-300"}`}
+          className={`flex-1 py-3 text-sm font-medium transition-colors flex justify-center gap-2 items-center ${activeTab === "subscriptions" ? "text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5" : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-300"}`}
         >
           <Repeat className="w-4 h-4" /> Subscription Sniper
         </button>
@@ -73,23 +73,23 @@ function BrainDumpTab() {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-sm font-bold text-white flex items-center gap-2 mb-1">
+        <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2 mb-1">
           <BrainCircuit className="w-4 h-4 text-indigo-400" /> AI Brain Dump Entry
         </h3>
-        <p className="text-xs text-zinc-400 mb-4">Just type whatever you spent money on naturally. The AI will extract all expenses, categorize them, and log them simultaneously.</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-4">Just type whatever you spent money on naturally. The AI will extract all expenses, categorize them, and log them simultaneously.</p>
       </div>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="e.g. I bought a coffee for 500, paid rent 15000, and ordered UberEats for 1200."
-        className="w-full h-24 bg-zinc-950 border border-zinc-800 rounded-lg p-4 text-sm text-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 custom-scrollbar"
+        className="w-full h-24 bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 text-sm text-zinc-900 dark:text-zinc-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 custom-scrollbar"
         disabled={isPending}
       />
       <div className="flex justify-end">
         <button
           onClick={() => mutate(text)}
           disabled={!text.trim() || isPending}
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 disabled:opacity-50"
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-zinc-900 dark:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 disabled:opacity-50"
         >
           {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {isPending ? "Parsing..." : "Magic Extract & Log"}
@@ -114,10 +114,10 @@ function TimeTravelTab() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-bold text-white flex items-center gap-2 mb-1">
+        <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2 mb-1">
           <FastForward className="w-4 h-4 text-indigo-400" /> Financial Time-Travel
         </h3>
-        <p className="text-xs text-zinc-400">Predict your future savings based on your current monthly trajectory.</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">Predict your future savings based on your current monthly trajectory.</p>
       </div>
 
       {!monthlyIncome ? (
@@ -127,7 +127,7 @@ function TimeTravelTab() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <label className="block text-sm font-medium text-zinc-300 mb-4">Travel into the future:</label>
+            <label className="block text-sm font-medium text-zinc-900 dark:text-zinc-300 mb-4">Travel into the future:</label>
             <input 
               type="range" 
               min="1" max="24" 
@@ -141,7 +141,7 @@ function TimeTravelTab() {
               <span>2 years</span>
             </div>
           </div>
-          <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-xl text-center">
+          <div className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 rounded-xl text-center">
             <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Projected Bank Balance</p>
             <p className={`text-4xl font-black ${futureSavings >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {futureSavings >= 0 ? "+" : "-"}{currency} {Math.abs(futureSavings).toLocaleString()}
@@ -183,27 +183,27 @@ function SubscriptionsTab() {
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-sm font-bold text-white flex items-center gap-2 mb-1">
+          <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2 mb-1">
             <Repeat className="w-4 h-4 text-indigo-400" /> Subscription Sniper
           </h3>
-          <p className="text-xs text-zinc-400">Our Agent scans your past receipts to find recurring subscriptions and instantly drafts cancellation emails for you.</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">Our Agent scans your past receipts to find recurring subscriptions and instantly drafts cancellation emails for you.</p>
         </div>
         {!analyzed && (
-          <button onClick={handleAnalyze} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition-colors shrink-0 flex items-center gap-2">
+          <button onClick={handleAnalyze} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-zinc-900 dark:text-white rounded-lg text-sm font-medium transition-colors shrink-0 flex items-center gap-2">
             <Sparkles className="w-4 h-4" /> Scan Receipts
           </button>
         )}
       </div>
 
       {analyzed && isLoading && (
-        <div className="flex flex-col items-center justify-center py-12 gap-3 text-zinc-400">
+        <div className="flex flex-col items-center justify-center py-12 gap-3 text-zinc-500 dark:text-zinc-400">
           <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
           <p className="text-sm">Agent is analyzing your expense history...</p>
         </div>
       )}
 
       {analyzed && !isLoading && subs?.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-zinc-800 rounded-lg gap-2 text-zinc-500">
+        <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-lg gap-2 text-zinc-500">
           <CheckCircle2 className="w-8 h-8 text-emerald-500/50" />
           <p className="text-sm">No recurring subscriptions detected.</p>
         </div>
@@ -212,17 +212,17 @@ function SubscriptionsTab() {
       {analyzed && !isLoading && subs?.length > 0 && (
         <div className="space-y-3 mt-4">
           {subs.map((sub: any, i: number) => (
-            <div key={i} className="bg-zinc-950 border border-zinc-800 rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div key={i} className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <p className="font-bold text-white">{sub.merchant}</p>
-                <p className="text-sm text-zinc-400">Estimated Cost: {currency} {sub.estimatedMonthlyCost.toLocaleString()} / mo</p>
+                <p className="font-bold text-zinc-900 dark:text-white">{sub.merchant}</p>
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">Estimated Cost: {currency} {sub.estimatedMonthlyCost.toLocaleString()} / mo</p>
               </div>
               <button 
                 onClick={() => {
                   navigator.clipboard.writeText(sub.draftCancellationEmail);
                   toast.success("Cancellation email copied to clipboard!");
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded text-sm transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-900 dark:text-zinc-200 rounded text-sm transition-colors"
               >
                 <Mail className="w-4 h-4" /> Copy Cancellation Email
               </button>
