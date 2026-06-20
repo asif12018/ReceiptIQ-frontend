@@ -44,7 +44,7 @@ export default function LoginPage() {
   useEffect(() => {
     const warmUp = async () => {
       try {
-        await fetch("https://receiptiq-backend.onrender.com/api/v1/health", {
+        await fetch("https://receipt-iq-backend.vercel.app/api/v1/health", {
           mode: "no-cors",
           signal: AbortSignal.timeout(60000),
         });
