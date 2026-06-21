@@ -19,31 +19,39 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const user = session.user as any;
 
-  // Fetch the real user profile from the backend to check if onboarding is needed.
-  // We cannot rely on Better-Auth's session object because it doesn't expose
-  // custom fields like occupation/monthlyIncome.
   let needsOnboarding = true;
-  try {
-    const profileRes = await fetch(
-      `https://receiptiq-backend.onrender.com/api/v1/users/me`,
-      {
-        headers: {
-          // Forward the cookie header so the backend can authenticate the request
-          cookie: reqHeaders.get("cookie") ?? "",
-        },
-        cache: "no-store",
-      }
-    );
 
-    if (profileRes.ok) {
-      const profileData = await profileRes.json();
-      const profile = profileData?.data ?? profileData;
-      // If the user already has both occupation and a monthlyIncome set, skip onboarding
-      needsOnboarding = !profile?.occupation || !profile?.monthlyIncome;
+  // 1. Fast path: check if the client cookie is already set
+  const cookiesStr = reqHeaders.get("cookie") || "";
+  if (cookiesStr.includes("profile_complete=1")) {
+    needsOnboarding = false;
+  } 
+  // 2. Fast path: if Better-Auth session includes them (due to additionalFields)
+  else if (user.occupation && user.monthlyIncome) {
+    needsOnboarding = false;
+  } 
+  // 3. Fallback: Fetch the real user profile from the backend
+  else {
+    try {
+      const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+      const profileRes = await fetch(
+        `${backendUrl}/api/v1/users/me`,
+        {
+          headers: {
+            cookie: cookiesStr,
+          },
+          cache: "no-store",
+        }
+      );
+
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        const profile = profileData?.data ?? profileData;
+        needsOnboarding = !profile?.occupation || !profile?.monthlyIncome;
+      }
+    } catch {
+      needsOnboarding = true;
     }
-  } catch {
-    // If the backend is unreachable, fall through and show the modal as a safe default
-    needsOnboarding = true;
   }
 
   if (needsOnboarding) {
